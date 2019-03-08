@@ -65,24 +65,27 @@ def compute_word_freq(filename):
     text = []
 
     for line in file:
-        for string in line.split():
-            small_word = ""
-            w = []
+        for string in line.split(): # inicialmente dividimos as linhas em espacos
+            small_word = "" # essa string contera cada palavra de uma palavra
+                            # composta, como 'however.it,is;a.bummer'
+                            # e assim adicionara cada uma separadamente
+                            # na lista 'text'
+
+            # separa as string compostas
             for char in string:
                 if char.isalpha():
                     small_word += char.lower()
                 else:
-                    w.append(small_word)
+                    text.append(small_word)
                     small_word = ""
                     w_count += 1
 
+            # cuida de excessoes
             if small_word != '':
-                w.append(small_word)
+                text.append(small_word)
                 w_count += 1
 
-            for word in w:
-                text.append(word)
-
+    # monta o dicionario
     for word in text:
         if len(word) >= 5:
             if dict.get(word) == None:
@@ -128,26 +131,25 @@ def compute_phrase_freq(filename):
     w = ""
     text = []
 
+    # essa funcao fica analoga a ultima, apenas com a montagem do dicionario
+    # sendo diferente
     for line in file:
         for string in line.split():
             small_word = ""
-            w = []
+
             for char in string:
                 if char.isalpha():
                     small_word += char.lower()
                 else:
-                    w.append(small_word)
+                    text.append(small_word)
                     small_word = ""
                     w_count += 1
 
             if small_word != '':
-                w.append(small_word)
+                text.append(small_word)
                 w_count += 1
 
-            for word in w:
-                text.append(word)
 
-    ####################################
     last_word = ""
     for word in text:
         if last_word != "" and len(word) >= 5 and len(last_word) >= 5:
@@ -210,6 +212,7 @@ def is_well_formed(filename):
         "[" : "]"
     }
 
+    # simples checagem de pares com uma pilha, com alguns corner cases
     for line in file:
         for c in line:
             if c == "(" or c == "[" or c == "{":
@@ -221,7 +224,7 @@ def is_well_formed(filename):
                 pair = stack.pop()
                 if c != pairs[pair]:
                     return False
-                    
+
     if len(stack) != 0:
         return False
     return True
@@ -285,10 +288,10 @@ def main():
     # r2 = compute_phrase_freq('simple_corpus.txt')
     # for p in r2:
     #    print(p, r2[p])
-    r3 = is_well_formed('test_parentheses01.txt')
-    print(r3)
-    r3 = is_well_formed('test_parentheses02.txt')
-    print(r3)
+    # r3 = is_well_formed('test_parentheses01.txt')
+    # print(r3)
+    # r3 = is_well_formed('test_parentheses02.txt')
+    # print(r3)
     print('********************')
     my_problem = SimpleProblem()  # Inicializa SimpleProblem default
     my_sol = depth_first_search(my_problem)  # Tenta resolver usando dfs
