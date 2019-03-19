@@ -81,18 +81,38 @@ class SegmentationProblem(util.Problem):
     def isGoalState(self, state):
         """ Metodo que implementa teste de meta """
         stateList = state.split()
-        last = stateList[-1]
-        cost = self.unigramCost(last)
-        for i in range(len(last)):
-            splitCost = self.unigramCost(last[:i]) #+ self.unigramCost(last[i:])
-            if self.stepCost(state,i) < cost:
-                return False
+        # last = stateList[-1]
+
+        currentCost = 0
+        for word in stateList:
+            currentCost += self.unigramCost(word)
+
+        for w in range(len(stateList)):
+            word = stateList[w]
+            for i in range(1, len(word)):
+                cost1 = self.unigramCost(word[:i])
+                cost2 = self.unigramCost(word[i:])
+
+                newCost = 0
+
+                for j in range(len(stateList)):
+                    if j != w:
+                        newCost += self.unigramCost(stateList[j])
+                    else:
+                        newCost += cost1 + cost2
+
+                if newCost < currentCost:
+                    return False
+
+                # splitCost = self.unigramCost(last[:i]) #+ self.unigramCost(last[i:])
+                # if self.stepCost(word, i):
+                    # return False
         return True
 
     def stepCost(self, state, action):
         """ Metodo que implementa funcao custo """
         stateList = state.split()
-        now = self.unigramCost(stateList[-1])
+        currentCost = sum(self.unigramCost(x) for x in stateList)
         cost1 = self.unigramCost(stateList[-1][:int(action)])
         cost2 = self.unigramCost(stateList[-1][int(action):])
         return cost1 + cost2 - now
@@ -107,11 +127,11 @@ def segmentWords(query, unigramCost):
     # a partir do no meta
     problem = SegmentationProblem(query, unigramCost)
     goalNode = util.uniformCostSearch(problem)
-    print("goal: ", goalNode.state)
-    valid,solution  = util.getSolution(goalNode,problem)
+    # print("goal: ", goalNode.state)
+    valid, solution  = util.getSolution(goalNode,problem)
 
     if valid:
-        return solution
+        return goalNode.state
     else:
         return "fudeu mermao"
 
@@ -219,7 +239,7 @@ def main():
     resulSegment = segmentWords(s, unigramCost)
     print("resultado: ",resulSegment)
 
-    resulSegment = segmentWords("somethingishardtoforget", unigramCost)
+    resulSegment = segmentWords("imagineallthepeople", unigramCost)
     print("resultado2: ",resulSegment)
 
 
