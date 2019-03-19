@@ -36,13 +36,13 @@ class Node:
 
 class PriorityQueue:
     """A queue in which the item with minimum f(item) is always popped first."""
-    def __init__(self, key, items=(),): 
+    def __init__(self, key, items=(),):
         self.key = key
         self.items = []    # a heap of (score, counter, item) pairs
         self.count = 0
         for item in items:
             self.add(item)
-         
+
     def add(self, item):
         """Add item to the queue."""
         m_tuple = (self.key(item),self.count, item)
@@ -52,7 +52,7 @@ class PriorityQueue:
     def pop(self):
         """Pop and return the item with min f(item) value."""
         return heapq.heappop(self.items)[2]
-    
+
     def top(self): return self.items[0][2]
 
     def __len__(self): return len(self.items)
@@ -90,7 +90,7 @@ def uniformCostSearch(problem):
 
         :Example:
 
-        
+
         >>> goal = uniformCostSearch(problem)
         >>> goal.state
         (1,2,3,4,5,6,7,8,0)
@@ -116,7 +116,7 @@ def aStar( problem, f):
 
         :Example:
 
-        
+
         >>> goal = aStar(problem, f)
         >>> goal.state
         (1,2,3,4,5,6,7,8,0)
@@ -125,7 +125,7 @@ def aStar( problem, f):
     """
     return informed_search(problem,f)
 
-    
+
 class Problem(object):
     """ Classe abstrata para representacao de um problema """
     def isState(self, state):
@@ -164,7 +164,7 @@ def getSolution(node, problem):
         node = new_n
     if node is not None and node.action is not None :
         steps.append(node.action)
-    return (True,  ' '.join(list(reversed(steps))))
+    return (True,  ' '.join(list(reversed(str(steps)))))
 
 
 SENTENCE_BEGIN = '-BEGIN-'
