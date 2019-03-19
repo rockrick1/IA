@@ -46,10 +46,10 @@ class SegmentationProblem(util.Problem):
     def initialState(self):
         """ Metodo que implementa retorno da posicao inicial """
         state = self.query
-        # numsei
         return state
 
     def actions(self, state):
+        print(state)
         """ Metodo que implementa retorno da lista de acoes validas
         para um determinado estado
         """
@@ -58,16 +58,12 @@ class SegmentationProblem(util.Problem):
         best = self.unigramCost(last)
         actions = []
         for i in range(1, len(last)):
-            split1 = last[:i]
-            split2 = last[i:]
-            cost = self.unigramCost(split1) + self.unigramCost(split2)
-            if cost < best:
-                actions = []
-                best = cost
-                actions.append(str(i))
-            elif cost == best:
-                actions.append(str(i))
-        print(actions)
+            # split1 = last[:i]
+            # split2 = last[i:]
+            # cost = self.unigramCost(split1) #+ self.unigramCost(split2)
+            # if False:#cost < best:
+                # actions.append(str(i))
+            actions.append(str(i))
         return actions
 
     def nextState(self, state, action):
@@ -88,18 +84,18 @@ class SegmentationProblem(util.Problem):
         last = stateList[-1]
         cost = self.unigramCost(last)
         for i in range(len(last)):
-            splitCost = self.unigramCost(last[:i]) + self.unigramCost(last[i:])
-            if splitCost < cost:
+            splitCost = self.unigramCost(last[:i]) #+ self.unigramCost(last[i:])
+            if self.stepCost(state,i) < cost:
                 return False
-        print("é, cabou")
         return True
 
     def stepCost(self, state, action):
         """ Metodo que implementa funcao custo """
         stateList = state.split()
         now = self.unigramCost(stateList[-1])
-        next = self.unigramCost(stateList[-1][int(action):])
-        return now - next
+        cost1 = self.unigramCost(stateList[-1][:int(action)])
+        cost2 = self.unigramCost(stateList[-1][int(action):])
+        return cost1 + cost2 - now
 
 def segmentWords(query, unigramCost):
 
@@ -117,7 +113,7 @@ def segmentWords(query, unigramCost):
     if valid:
         return solution
     else:
-        print("fudeu mermao")
+        return "fudeu mermao"
 
     # END_YOUR_CODE
 
@@ -195,17 +191,20 @@ def main():
     Descomente as linhas que julgar conveniente ou crie seus proprios testes.
     """
     s = 'believeinyourselfhavefaithinyourabilities'
-    str = "verydifficult"
+    str = "verydifficultstuff"
     for i in range(len(str)):
         print(i, str[:i], str[i:])
     unigramCost, bigramCost, possibleFills  =  getRealCosts()
 
-    print(unigramCost(""))
-    ss = "inyourselfhavefaithinyourabilities"
-    for i in range(len(ss)):
-        if unigramCost(ss[:i]) + unigramCost(ss[i:]) < unigramCost(ss):
-            print("tem melhor", i)
+    print(unigramCost(str))
+    for i in range(len(str)):
+        str1 = str[:i]
+        str2 = str[i:]
+        print(str1, str2)
+        print(unigramCost(str[:i]), unigramCost(str[i:]))
 
+    print("sum", unigramCost("in"))
+    print(unigramCost("yourselfhavefaithinyourabilities"))
     print("sum", unigramCost("in") + unigramCost("yourselfhavefaithinyourabilities"))
     print("sum", unigramCost("very") + unigramCost("difficult"))
     print("sum", unigramCost("verydif") + unigramCost("ficult"))
@@ -219,6 +218,9 @@ def main():
 
     resulSegment = segmentWords(s, unigramCost)
     print("resultado: ",resulSegment)
+
+    resulSegment = segmentWords("somethingishardtoforget", unigramCost)
+    print("resultado2: ",resulSegment)
 
 
     # resultInsert = insertVowels('smtms ltr bcms nvr'.split(), bigramCost, possibleFills)
