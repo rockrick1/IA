@@ -49,7 +49,6 @@ class SegmentationProblem(util.Problem):
         return state
 
     def actions(self, state):
-        print(state)
         """ Metodo que implementa retorno da lista de acoes validas
         para um determinado estado
         """
@@ -89,28 +88,40 @@ class SegmentationProblem(util.Problem):
         """ Metodo que implementa teste de meta """
         stateList = state.split()
         # last = stateList[-1]
+        currentCost = self.stateCost(state)
 
-        for w in range(len(stateList)):
-            word = stateList[w]
-            currentCost = self.unigramCost(word)
-            for i in range(1, len(word)):
-                cost1 = self.unigramCost(word[:i])
-                cost2 = self.unigramCost(word[i:])
+        for action1 in self.actions(state):
+            newState1 = self.nextState(state, action1)
+            newCost1 = self.stateCost(newState1)
+            if newCost1 < currentCost:
+                return False
 
-                newCost = cost1 + cost2
-
-                # for j in range(len(stateList)):
-                #     if j != w:
-                #         newCost += self.unigramCost(stateList[j])
-                #     else:
-                #         newCost += cost1 + cost2
-
-                if newCost < currentCost:
+            for action2 in self.actions(newState1):
+                newState2 = self.nextState(newState1, action2)
+                newCost2 = self.stateCost(newState2)
+                if newCost2 < currentCost:
                     return False
 
-                # splitCost = self.unigramCost(last[:i]) #+ self.unigramCost(last[i:])
-                # if self.stepCost(word, i):
-                    # return False
+                for action3 in self.actions(newState2):
+                    newState3 = self.nextState(newState2, action3)
+                    newCost3 = self.stateCost(newState3)
+                    if newCost3 < currentCost:
+                        return False
+
+
+        # for w in range(len(stateList)):
+        #     word = stateList[w]
+        #     currentCost = self.unigramCost(word)
+        #     for i in range(1, len(word)):
+        #         cost1 = self.unigramCost(word[:i])
+        #         cost2 = self.unigramCost(word[i:])
+        #
+        #         newCost = cost1 + cost2
+        #
+        #
+        #         if newCost < currentCost:
+        #             return False
+
         return True
 
     def stepCost(self, state, action):
@@ -125,6 +136,13 @@ class SegmentationProblem(util.Problem):
         cost2 = self.unigramCost(stateList[index][cut:])
         newCost = cost1 + cost2
         return newCost - currentCost
+
+    def stateCost(self, state):
+        stateList = state.split()
+        cost = 0
+        for word in stateList:
+            cost += self.unigramCost(word)
+        return cost
 
 def segmentWords(query, unigramCost):
 
