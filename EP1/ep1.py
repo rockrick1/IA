@@ -86,8 +86,6 @@ class SegmentationProblem(util.Problem):
 
     def isGoalState(self, state):
         """ Metodo que implementa teste de meta """
-        stateList = state.split()
-        # last = stateList[-1]
         currentCost = self.stateCost(state)
 
         for action1 in self.actions(state):
@@ -159,8 +157,6 @@ def segmentWords(query, unigramCost):
 
     if valid:
         return goalNode.state
-    else:
-        return "fudeu mermao"
 
     # END_YOUR_CODE
 
@@ -180,34 +176,87 @@ class VowelInsertionProblem(util.Problem):
 
     def initialState(self):
         """ Metodo  que implementa retorno da posicao inicial """
-        return self.queryWords
+        state = ' '.join(word for word in self.queryWords)
+        return state
 
     def actions(self, state):
         """ Metodo  que implementa retorno da lista de acoes validas
         para um determinado estado
         """
-        raise NotImplementedError
+        stateList = state.split()
+        actions = []
+
+        for i in range(len(stateList)):
+            word = stateList[i]
+            for fill in self.possibleFills(self.queryWords[i]):
+                if fill != word:
+                    t = (i, fill)
+                    actions.append(t)
+
+        return actions
 
     def nextState(self, state, action):
         """ Metodo que implementa funcao de transicao """
-        raise NotImplementedError
+        stateList = state.split()
+        index = action[0]
+        word = action[1]
+
+        stateList[index] = word
+        newState = ' '.join(word for word in stateList)
+        return newState
 
     def isGoalState(self, state):
         """ Metodo que implementa teste de meta """
-        raise NotImplementedError
+        currentCost = self.stateCost(state)
+        print(state)
+
+        for action1 in self.actions(state):
+            newState1 = self.nextState(state, action1)
+            newCost1 = self.stateCost(newState1)
+            if newCost1 > currentCost:
+                return False
+
+            # for action2 in self.actions(newState1):
+            #     newState2 = self.nextState(newState1, action2)
+            #     newCost2 = self.stateCost(newState2)
+            #     if newCost2 > currentCost:
+            #         return False
+
+                # for action3 in self.actions(newState2):
+                #     newState3 = self.nextState(newState2, action3)
+                #     newCost3 = self.stateCost(newState3)
+                #     if newCost3 < currentCost:
+                #         return False
+        return True
 
     def stepCost(self, state, action):
         """ Metodo que implementa funcao custo """
-        raise NotImplementedError
+        currentCost = self.stateCost(state)
+        newState = self.nextState(state, action)
+        newCost = self.stateCost(newState)
+        return newCost - currentCost
 
+    def stateCost(self, state):
+        stateList = state.split()
+        cost = 0
+        stateList.insert(0, util.SENTENCE_BEGIN)
+        for i in range(len(stateList) - 1):
+            cost += self.bigramCost(stateList[i], stateList[i+1])
+
+        return cost
 
 
 def insertVowels(queryWords, bigramCost, possibleFills):
     # BEGIN_YOUR_CODE
     # Voce pode usar a função getSolution para recuperar a sua solução
     # a partir do no meta
-    # valid,solution  = util.getSolution(goalNode,problem)
-    raise NotImplementedError
+    problem = VowelInsertionProblem(queryWords, bigramCost, possibleFills)
+    goalNode = util.uniformCostSearch(problem)
+
+    valid, solution  = util.getSolution(goalNode,problem)
+
+    if valid:
+        return goalNode.state
     # END_YOUR_CODE
 
 ############################################################
@@ -242,6 +291,11 @@ def main():
     # for i in range(len(str)):
     #     print(i, str[:i], str[i:])
     unigramCost, bigramCost, possibleFills  =  getRealCosts()
+    print(bigramCost("sometimes", "ltr"))
+    print(bigramCost("sometimes", "later"))
+    print(bigramCost("ltr", "bcms"))
+    print(bigramCost("later", "bcms"))
+    print(bigramCost("later", "becomes"))
 
     # print(unigramCost(str))
     # for i in range(len(str)):
@@ -263,15 +317,14 @@ def main():
     # print(6, unigramCost("veryd"))
     # print('b', bigramCost("very", "difficult"))
 
-    resulSegment = segmentWords(s, unigramCost)
-    print("resultado: ",resulSegment)
+    # resulSegment = segmentWords(s, unigramCost)
+    # print("resultado: ",resulSegment)
 
-    resulSegment = segmentWords("imagineallthepeople", unigramCost)
-    print("resultado2: ",resulSegment)
+    # resulSegment = segmentWords("imagineallthepeople", unigramCost)
+    # print("resultado2: ",resulSegment)
 
-
-    # resultInsert = insertVowels('smtms ltr bcms nvr'.split(), bigramCost, possibleFills)
-    # print(resultInsert)
+    resultInsert = insertVowels('smtms ltr bcms nvr'.split(), bigramCost, possibleFills)
+    print(resultInsert)
 
 if __name__ == '__main__':
     main()
