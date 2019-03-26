@@ -55,6 +55,14 @@ class PriorityQueue:
 
     def top(self): return self.items[0][2]
 
+    def print_itens(self):
+        print("itens: ")
+        for i in self.items:
+            score = i[0]
+            data = i[2]
+            print(score, " ", data.state, " ", data.action)
+        print()
+
     def __len__(self): return len(self.items)
 
 def informed_search(problem, f):
@@ -65,15 +73,25 @@ def informed_search(problem, f):
     reached = dict()
     reached[initialNode.state] = initialNode.cost
     while frontier:
+        # frontier.print_itens()
         node = frontier.pop()
+        # print("state: ", node.state)
+        # print("cost: ", node.cost)
+        # print("last action: ", node.action)
         if problem.isGoalState(node.state):
+            # print("finished!!!!!!!!!!!!!")
             return node
         for action in problem.actions(node.state):
+            # print("\naction: ", action)
             state = problem.nextState(node.state, action)
             cost = problem.stepCost(node.state, action) + node.cost
+            # print("state: ", state)
+            # print("cost: ", cost)
             if state not in reached or  cost < reached[state] :
                 reached[state] = cost
                 frontier.add(Node(state, cost, node, action))
+
+        # print("!" *30)
     return None
 
 def uniformCostSearch(problem):
@@ -164,7 +182,7 @@ def getSolution(node, problem):
         node = new_n
     if node is not None and node.action is not None :
         steps.append(node.action)
-    return (True,  ' '.join(list(reversed(str(steps)))))
+    return (True,  ' '.join(list(str(reversed(steps)))))
 
 
 SENTENCE_BEGIN = '-BEGIN-'
