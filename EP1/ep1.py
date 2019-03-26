@@ -55,7 +55,7 @@ class SegmentationProblem(util.Problem):
         actions = []
         i = len(state)
         while(state[i-1] != ' ' and i > 0):
-            actions.append(i)
+            actions.append(str(i))
             i -= 1
 
         # stateList = state.split()
@@ -73,10 +73,10 @@ class SegmentationProblem(util.Problem):
 
     def nextState(self, state, action):
         """ Metodo que implementa funcao de transicao """
-        if action == len(state):
+        if int(action) == len(state):
             newState = state + ' '
         else:
-            newState = state[:action] + ' ' + state[action:]
+            newState = state[:int(action)] + ' ' + state[int(action):]
         # stateList = state.split()
         #
         # # Apenas executa o corte na palavra de indice index
@@ -113,7 +113,7 @@ class SegmentationProblem(util.Problem):
 
     def stepCost(self, state, action):
         """ Metodo que implementa funcao custo """
-        newState = self.nextState(state, action)
+        newState = self.nextState(state, int(action))
         newStateList = newState.split()
         if len(newStateList) <= 1:
             return self.unigramCost(newStateList[0])
@@ -155,6 +155,7 @@ def segmentWords(query, unigramCost):
 
     if valid:
         result = goalNode.state
+        print(solution)
         return result[:len(result) - 1]
 
     # END_YOUR_CODE
