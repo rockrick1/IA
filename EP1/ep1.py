@@ -52,56 +52,24 @@ class SegmentationProblem(util.Problem):
         para um determinado estado
         """
         actions = []
-        # stateList = state.split()
         lastWord = self.query[state:]
         for i in range(1, len(lastWord) + 1):
             actions.append(lastWord[:i])
-        # i = len(state)
-        # while(state[i-1] != ' ' and i > 0):
-        #     actions.append(str(i))
-        #     i -= 1
-
         return actions
 
     def nextState(self, state, action):
         """ Metodo que implementa funcao de transicao """
         return state + len(action)
 
-        # if int(action) == len(state):
-        #     newState = state + ' '
-        # else:
-        #     newState = state[:int(action)] + ' ' + state[int(action):]
-
-        return newState
-
     def isGoalState(self, state):
         """ Metodo que implementa teste de meta """
         if state == len(self.query):
             return True
         return False
-        # stateList = state.split()
-        # currentCost = self.unigramCost(stateList[-1])
-        #
-        # # Checa, com 3 graus de indireção, se ha alguma ação que diminuirá o
-        # # valor total do estado. Em outras palavras, checa se alguma combinação
-        # # de até 3 ações diminuirá o custo total do estado
-        # for action in self.actions(state):
-        #     newCost = self.stepCost(state, action)
-        #     if newCost < currentCost:
-        #         return False
-        #
-        # return True
 
     def stepCost(self, state, action):
         """ Metodo que implementa funcao custo """
         return self.unigramCost(action)
-        # newState = self.nextState(state, int(action))
-        # newStateList = newState.split()
-        # if len(newStateList) <= 1:
-        #     return self.unigramCost(newStateList[0])
-        # if newState[-1] == ' ':
-        #     return self.unigramCost(newStateList[-1])
-        # return self.unigramCost(newStateList[-2])
 
 def segmentWords(query, unigramCost):
 
