@@ -45,18 +45,15 @@ class SegmentationProblem(util.Problem):
 
     def initialState(self):
         """ Metodo que implementa retorno da posicao inicial """
-        return "0"
+        return 0
 
     def actions(self, state):
         """ Metodo que implementa retorno da lista de acoes validas
         para um determinado estado
         """
         actions = []
-        stateList = state.split()
-        index = 0
-        if len(stateList) > 0:
-            index = int(stateList[-1])
-        lastWord = self.query[index:]
+        # stateList = state.split()
+        lastWord = self.query[state:]
         for i in range(1, len(lastWord) + 1):
             actions.append(lastWord[:i])
         # i = len(state)
@@ -68,13 +65,7 @@ class SegmentationProblem(util.Problem):
 
     def nextState(self, state, action):
         """ Metodo que implementa funcao de transicao """
-        stateList = state.split()
-        if len(stateList) > 0:
-            newLast = int(stateList[-1]) + len(action)
-        else:
-            newLast = len(action)
-        newState = state + " " + str(newLast)
-        return newState
+        return state + len(action)
 
         # if int(action) == len(state):
         #     newState = state + ' '
@@ -85,8 +76,7 @@ class SegmentationProblem(util.Problem):
 
     def isGoalState(self, state):
         """ Metodo que implementa teste de meta """
-        stateList = state.split()
-        if len(stateList) > 0 and int(stateList[-1]) == len(self.query):
+        if state == len(self.query):
             return True
         return False
         # stateList = state.split()
@@ -220,7 +210,6 @@ class VowelInsertionProblem(util.Problem):
         stateList = state.split()
         cost = 0
         stateList.insert(0, util.SENTENCE_BEGIN)
-        print(stateList)
         for i in range(len(stateList) - 1):
             cost += self.bigramCost(stateList[i], stateList[i+1])
 
@@ -273,7 +262,7 @@ def main():
     Descomente as linhas que julgar conveniente ou crie seus proprios testes.
     """
     s = 'believeinyourselfhavefaithinyourabilities'
-    ss = 'AccordingtoallknownlawsofaviationthereisnowaythatabeeshouldbeabletoflyItswingsaretoosmalltogetitsfatlittlebodyoffthegroundThebeeofcoursefliesanyways'
+    ss = 'accordingtoallknownlawsofaviationthereisnowaythatabeeshouldbeabletoflyitswingsaretoosmalltogetitsfatlittlebodyoffthegroundthebeeofcoursefliesanyways'
     str = "verydifficultstuff"
     # for i in range(len(str)):
     #     print(i, str[:i], str[i:])
@@ -308,7 +297,7 @@ def main():
     print("be: ",unigramCost("be"))
     print(unigramCost("lieveinyourself"))
 
-    resulSegment = segmentWords(s, unigramCost)
+    resulSegment = segmentWords(ss, unigramCost)
     print("resultado: ",resulSegment)
 
     # resulSegment = segmentWords("imagineallthepeople", unigramCost)
