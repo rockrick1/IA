@@ -45,57 +45,48 @@ class SegmentationProblem(util.Problem):
 
     def initialState(self):
         """ Metodo que implementa retorno da posicao inicial """
-        state = self.query
-        return state
+        return "0"
 
     def actions(self, state):
         """ Metodo que implementa retorno da lista de acoes validas
         para um determinado estado
         """
         actions = []
-        i = len(state)
-        while(state[i-1] != ' ' and i > 0):
-            actions.append(str(i))
-            i -= 1
-
-        # stateList = state.split()
-        # actions = []
-        #
-        # # Cria uma lista de tuplas contendo
-        # # (indice da palavra, indice de corte na palavra)
-        # # para todas as ações possiveis
-        # for i in range(len(stateList)):
-        #     for j in range(1, len(stateList[i])):
-        #         t = (i, j)
-        #         actions.append(t)
+        stateList = state.split()
+        index = 0
+        if len(stateList) > 0:
+            index = int(stateList[-1])
+        lastWord = self.query[index:]
+        for i in range(1, len(lastWord) + 1):
+            actions.append(lastWord[:i])
+        # i = len(state)
+        # while(state[i-1] != ' ' and i > 0):
+        #     actions.append(str(i))
+        #     i -= 1
 
         return actions
 
     def nextState(self, state, action):
         """ Metodo que implementa funcao de transicao """
-        if int(action) == len(state):
-            newState = state + ' '
+        stateList = state.split()
+        if len(stateList) > 0:
+            newLast = int(stateList[-1]) + len(action)
         else:
-            newState = state[:int(action)] + ' ' + state[int(action):]
-        # stateList = state.split()
-        #
-        # # Apenas executa o corte na palavra de indice index
-        # # na posição cut da palavra e devolve o novo estado
-        # index = action[0]
-        # cut = action[1]
-        # word = stateList[index]
-        # str1 = word[:int(cut)]
-        # str2 = word[int(cut):]
-        #
-        # stateList[index] = str2
-        # stateList.insert(index, str1)
-        # newState = ' '.join(word for word in stateList)
+            newLast = len(action)
+        newState = state + " " + str(newLast)
+        return newState
+
+        # if int(action) == len(state):
+        #     newState = state + ' '
+        # else:
+        #     newState = state[:int(action)] + ' ' + state[int(action):]
 
         return newState
 
     def isGoalState(self, state):
         """ Metodo que implementa teste de meta """
-        if state[-1] == ' ':
+        stateList = state.split()
+        if len(stateList) > 0 and int(stateList[-1]) == len(self.query):
             return True
         return False
         # stateList = state.split()
@@ -113,33 +104,14 @@ class SegmentationProblem(util.Problem):
 
     def stepCost(self, state, action):
         """ Metodo que implementa funcao custo """
-        newState = self.nextState(state, int(action))
-        newStateList = newState.split()
-        if len(newStateList) <= 1:
-            return self.unigramCost(newStateList[0])
-        if newState[-1] == ' ':
-            return self.unigramCost(newStateList[-1])
-        return self.unigramCost(newStateList[-2])
-        # # Compara o custo do estado atual com o do estado após realizar a
-        # # ação action, e devolve a diferença deles
-        # index = action[0]
-        # cut = action[1]
-        #
-        # currentCost = self.unigramCost(stateList[index])
-        # cost1 = self.unigramCost(stateList[index][:cut])
-        # cost2 = self.unigramCost(stateList[index][cut:])
-        # newCost = cost1 + cost2
-        #
-        # return newCost - currentCost
-
-    def stateCost(self, state):
-        # Apenas calcula e devolve o valor total de um estado
-        stateList = state.split()
-        cost = 0
-        for word in stateList:
-            cost += self.unigramCost(word)
-
-        return cost
+        return self.unigramCost(action)
+        # newState = self.nextState(state, int(action))
+        # newStateList = newState.split()
+        # if len(newStateList) <= 1:
+        #     return self.unigramCost(newStateList[0])
+        # if newState[-1] == ' ':
+        #     return self.unigramCost(newStateList[-1])
+        # return self.unigramCost(newStateList[-2])
 
 def segmentWords(query, unigramCost):
 
@@ -156,7 +128,7 @@ def segmentWords(query, unigramCost):
     if valid:
         result = goalNode.state
         print(solution)
-        return result[:len(result) - 1]
+        return solution
 
     # END_YOUR_CODE
 
@@ -193,7 +165,7 @@ class VowelInsertionProblem(util.Problem):
             for fill in self.possibleFills(self.queryWords[i]):
                 if fill != word:
                     t = (i, fill)
-                    actions.append(t)
+                    actions.append(str(t))
 
         return actions
 
@@ -202,8 +174,9 @@ class VowelInsertionProblem(util.Problem):
         stateList = state.split()
 
         # Monta e devolve o novo estado baseado na ação action
-        index = action[0]
-        word = action[1]
+        # index = action[0]
+        # word = action[1]
+        index, word = self.getAction(action)
 
         stateList[index] = word
         newState = ' '.join(word for word in stateList)
@@ -252,6 +225,12 @@ class VowelInsertionProblem(util.Problem):
             cost += self.bigramCost(stateList[i], stateList[i+1])
 
         return cost
+
+    def getAction(self, string):
+        tmp = string.split()
+        index = int(tmp[0][1:-1])
+        word = tmp[1][1:-2]
+        return (index, word)
 
 
 def insertVowels(queryWords, bigramCost, possibleFills):

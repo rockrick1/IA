@@ -182,7 +182,7 @@ def getSolution(node, problem):
         node = new_n
     if node is not None and node.action is not None :
         steps.append(node.action)
-    return (True,  ' '.join(list(str(reversed(steps)))))
+    return (True,  ' '.join(list(reversed(steps))))
 
 
 SENTENCE_BEGIN = '-BEGIN-'
@@ -280,4 +280,3 @@ def makeInverseRemovalDictionary(path, removeChars):
         return wordsRemovedToFull.get(short, set())
 
     return possibleFills
-
