@@ -45,12 +45,18 @@ class SegmentationProblem(util.Problem):
 
     def initialState(self):
         """ Metodo que implementa retorno da posicao inicial """
+		# Inicialmente, temos a string cortada no indice 0, ou seja,
+		# não está cortada ainda
         return 0
 
     def actions(self, state):
         """ Metodo que implementa retorno da lista de acoes validas
         para um determinado estado
         """
+		# O estado representa o ultimo corte na string, então pegamos
+		# a palavra formada por query[corte, fim da string] e tentamos
+		# cada comprimento dela, isso é, palavra[0,1], palavra[0,2]
+		# palavra[0,3] etc...
         actions = []
         lastWord = self.query[state:]
         for i in range(1, len(lastWord) + 1):
@@ -59,16 +65,23 @@ class SegmentationProblem(util.Problem):
 
     def nextState(self, state, action):
         """ Metodo que implementa funcao de transicao """
+		# O proximo estado será o estado atual + o tamanho da palavra
+		# cortada nessa ação
         return state + len(action)
 
     def isGoalState(self, state):
         """ Metodo que implementa teste de meta """
+		# Quando retirarmos um item da fila de prioridade, e ele tiver
+		# "cortado" a string na ultima posição, isso é, não tiver cortado,
+		# quer dizer que a ultima palavra encaixa com o resto da string e 
+		# temos assim o estado desejado
         if state == len(self.query):
             return True
         return False
 
     def stepCost(self, state, action):
         """ Metodo que implementa funcao custo """
+		# O custo será definido pelo custo da palavra resultante da ação
         return self.unigramCost(action)
 
 def segmentWords(query, unigramCost):
@@ -85,7 +98,6 @@ def segmentWords(query, unigramCost):
 
     if valid:
         result = goalNode.state
-        print(solution)
         return solution
 
     # END_YOUR_CODE
@@ -184,6 +196,7 @@ class VowelInsertionProblem(util.Problem):
         return cost
 
     def getAction(self, string):
+		# Transforma a string de ação na tupla usada nas outras funções
         tmp = string.split()
         index = int(tmp[0][1:-1])
         word = tmp[1][1:-2]
@@ -230,7 +243,7 @@ def main():
     Descomente as linhas que julgar conveniente ou crie seus proprios testes.
     """
     s = 'believeinyourselfhavefaithinyourabilities'
-    ss = 'accordingtoallknownlawsofaviationthereisnowaythatabeeshouldbeabletoflyitswingsaretoosmalltogetitsfatlittlebodyoffthegroundthebeeofcoursefliesanyways'
+    ss = 'accordingtoallknownlawsofaviationthereisnowaythatabeeshouldbeabletoflyitswingsaretoosmalltogetitsfat'
     str = "verydifficultstuff"
     # for i in range(len(str)):
     #     print(i, str[:i], str[i:])
@@ -261,6 +274,7 @@ def main():
     # print(5, unigramCost("very"))
     # print(6, unigramCost("veryd"))
     # print('b', bigramCost("very", "difficult"))
+    print(len(ss))
 
     print("be: ",unigramCost("be"))
     print(unigramCost("lieveinyourself"))
