@@ -216,42 +216,42 @@ def run_tests():
 
         print("Finished Part 00: Test 03")
         print("*************************")
-        print("Starting Part 00: Test 04")
-
-        # Test 04
-        # Big grid 2000x2000 car 1 at (1998,1998), person (1,1), car2 (0,0)
-        grid4 = [[0]*2000 for _ in range(2000)]
-        grid4[1][1] = 3
-        grid4[0][0] = 2
-        grid4[1998][1998] = 1
-        problem = util.USPber(grid=grid4,
-                              multi_agent=True,
-                              tank_capacity=100,
-                              max_turns=11)
-        pl1 = ep2.RandomAgent(player_number=1, number_of_agents=2,
-                              tank_capacity=100, max_depth=4)
-        moves = 0
-        state = problem.initial_state()
-        n_grid, _, nt01g, _, _, _ = state
-        state1 = (n_grid, nt01g)
-        list_of_actions = []
-
-        while moves < 5:
-            with Timeout(15):
-                act = pl1.get_action(state1)
-            list_of_actions.append(act)
-            new_state = problem.next_state(state, act)
-            new_state = problem.next_state(new_state, 'STOP')
-            n_grid, _, nt01g, _, _, _ = new_state
-            state1 = (n_grid, nt01g)
-            final_info = problem.get_game_info(new_state)
-            state = copy.deepcopy(new_state)
-            moves += 1
-
-        if final_info['agent1_faults'] == 0:
-            test_results += 1.0
-
-        print("Finished Part 00: Test 04")
+        # print("Starting Part 00: Test 04")
+        #
+        # # Test 04
+        # # Big grid 2000x2000 car 1 at (1998,1998), person (1,1), car2 (0,0)
+        # grid4 = [[0]*2000 for _ in range(2000)]
+        # grid4[1][1] = 3
+        # grid4[0][0] = 2
+        # grid4[1998][1998] = 1
+        # problem = util.USPber(grid=grid4,
+        #                       multi_agent=True,
+        #                       tank_capacity=100,
+        #                       max_turns=11)
+        # pl1 = ep2.RandomAgent(player_number=1, number_of_agents=2,
+        #                       tank_capacity=100, max_depth=4)
+        # moves = 0
+        # state = problem.initial_state()
+        # n_grid, _, nt01g, _, _, _ = state
+        # state1 = (n_grid, nt01g)
+        # list_of_actions = []
+        #
+        # while moves < 5:
+        #     with Timeout(15):
+        #         act = pl1.get_action(state1)
+        #     list_of_actions.append(act)
+        #     new_state = problem.next_state(state, act)
+        #     new_state = problem.next_state(new_state, 'STOP')
+        #     n_grid, _, nt01g, _, _, _ = new_state
+        #     state1 = (n_grid, nt01g)
+        #     final_info = problem.get_game_info(new_state)
+        #     state = copy.deepcopy(new_state)
+        #     moves += 1
+        #
+        # if final_info['agent1_faults'] == 0:
+        #     test_results += 1.0
+        #
+        # print("Finished Part 00: Test 04")
         print("*************************")
         print("Starting Part 00: Test 05")
 

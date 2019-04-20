@@ -35,11 +35,70 @@ class RandomAgent(util.Agent):
     """ Implements an agent that chooses a random action """
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.grid = None
+        self.grid_height = None
+        self.grid_width = None
 
+    def __state_from_perception(self, perception):
+        """ Private method to help to convert a perception into a state """
+        grid, remaining_gas = perception
+        self.grid = grid
+        self.grid_height = len(self.grid)
+        self.grid_width = len(self.grid[0])
+        # Car and car parked on the gas station
+        player_values = [self.player_number, self.player_number+7]
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                if grid[i][j] in player_values:
+                    return ((i, j), remaining_gas)
+        return None
+
+    def __process_state(self, state):
+        """ Private method that process a given state returning relevant info
+        """
+        agent_pos, remaining_gas = state
+        i, j = agent_pos
+        grid_number = self.grid[i][j]
+        if grid_number not in [1, 2, 8, 9]:
+            raise ValueError("There is no player at position: ({0},{1})".format(i, j))
+        # Fix number in case car is inside gas station
+        if grid_number > 2:
+            player_number = grid_number - 7
+        else:
+            player_number = grid_number
+        if player_number == 1:
+            obstacles = [2, 5, 9]
+        else:
+            obstacles = [1, 5, 8]
+        full_info = (agent_pos, player_number, obstacles, remaining_gas)
+        return full_info
+
+    def actions(self, state):
+        """ Returns a list of valid actions for a given state """
+        ag_pos, pl_number, obstacles, rem_gas = self.__process_state(state)
+        i, j = ag_pos
+        gas_station = pl_number + 7
+
+        valid = []
+        if rem_gas > 0:
+            if i-1 >= 0 and self.grid[i-1][j] not in obstacles:
+                valid.append('UP')
+            if j+1 < self.grid_width and self.grid[i][j+1] not in obstacles:
+                valid.append('RIGHT')
+            if i+1 < self.grid_height and self.grid[i+1][j] not in obstacles:
+                valid.append('DOWN')
+            if j-1 >= 0 and self.grid[i][j-1] not in obstacles:
+                valid.append('LEFT')
+        if self.grid[i][j] == gas_station:
+            valid.append('REFILL')
+        valid.append('STOP')  # STOP is always a valid action
+        return valid
 
     def get_action(self, perception):
-        total_actions = ['UP', 'RIGHT', 'DOWN', 'LEFT', 'REFILL', 'STOP']
-        return random.choice(total_actions)
+        state = self.__state_from_perception(perception)
+        print(self.actions(state))
+        print(state)
+        return random.choice(self.actions(state))
 
 
 # **********************************************************
@@ -69,12 +128,47 @@ class CollectAllAgent(util.Agent):
         are safe to go with the just the line below.
         """
         super().__init__(**kwargs)
+        self.problem_reference = CollectAllAgentProblem
+        self.problem = None
 
+    def manhattan_distance(self, node):
+        """ Heuristic to be used by the A* algorithm """
+        goals = self.problem.people_position
+        state = node.state[0]
+        best_distance = util.INT_INFTY
+        for people in goals:
+            manhattan = abs(state[0]-people[0])+abs(state[1]-people[1])
+            if manhattan < best_distance:
+                best_distance = manhattan
+        return best_distance
+
+    def heuristic(self, node):
+        return random.random()
+
+    def __state_from_perception(self, perception):
+        """ Private method to help to convert a perception into a state """
+        grid, remaining_gas = perception
+        # Car and car parked on the gas station
+        player_values = [self.player_number, self.player_number+7]
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                if grid[i][j] in player_values:
+                    return ((i, j), remaining_gas)
+        return None
+
+    def start_agent(self, perception, problem, **kwargs):
+        """ Initialize all non-default attributes in the agent """
+
+        self.initial_state = self.__state_from_perception(perception)
+        grid, _ = perception
+        new_grid = copy.deepcopy(grid)
+        self.problem = problem(new_grid, self.initial_state, **kwargs)
 
     def get_action(self, perception):
         """ Receives a perception, do a search and returns an action """
 
-        # função de heuristica aqui
+        self.start_agent(perception, self.problem_reference,
+                         tank_capacity=self.tank_capacity)
         node = util.a_star(self.problem, self.manhattan_distance)
 
         if not node:  # Search did not find any action
@@ -95,27 +189,149 @@ class CollectAllAgentProblem(util.Problem):
     include any other method you see fit.
     """
     def __init__(self, grid, initial_state, **kwargs):
-        raise NotImplementedError
+        self.grid = copy.deepcopy(grid)
+        self.init_state = initial_state
+        self.grid_height = len(self.grid)
+        self.grid_width = len(self.grid[0])
+        self.people_position = self.__all_people()
+        self.tank_capacity = kwargs.get('tank_capacity', util.INT_INFTY)
+        self.max_depth = kwargs.get('max_depth', util.MAX_DEPTH)
 
+    def __all_people(self):
+        """ Private method that find all people in the grid returning a dict
+        """
+        people_pos = {}
+        people_numbers = [3, 6, 7]
+        for i in range(len(self.grid)):
+            for j in range(len(self.grid[0])):
+                if self.grid[i][j] in people_numbers:
+                    people_pos[(i, j)] = self.grid[i][j]
+        return people_pos
+
+    def __process_state(self, state):
+        """ Private method that process a given state returning relevant info
+
+        Helper method that receives a state and returns four important info
+        from that state in the following order:
+            - A tuple of integers (i,j) with the player position on the grid
+            - An integer with the player_number
+            - A list with the obstacles for that player_number
+            - An integer with the remaining fuel the agent have
+
+        :param state: A tuple with agent position and remaining fuel
+        :type state: <class 'tuple'>
+        :return full_info: A tuple with the four info described above
+        :rtype: <class 'tuple'>
+        """
+        agent_pos, remaining_gas = state
+        i, j = agent_pos
+        grid_number = self.grid[i][j]
+        if grid_number not in [1, 2, 8, 9]:
+            raise ValueError("There is no player at position: ({0},{1})".format(i, j))
+        # Fix number in case car is inside gas station
+        if grid_number > 2:
+            player_number = grid_number - 7
+        else:
+            player_number = grid_number
+        if player_number == 1:
+            obstacles = [2, 5, 9]
+        else:
+            obstacles = [1, 5, 8]
+        full_info = (agent_pos, player_number, obstacles, remaining_gas)
+        return full_info
 
     def actions(self, state):
-        raise NotImplementedError
+        """ Returns a list of valid actions for a given state """
+        ag_pos, pl_number, obstacles, rem_gas = self.__process_state(state)
+        i, j = ag_pos
+        gas_station = pl_number + 7
+
+        valid = []
+        if rem_gas > 0:
+            if i-1 >= 0 and self.grid[i-1][j] not in obstacles:
+                valid.append('UP')
+            if j+1 < self.grid_width and self.grid[i][j+1] not in obstacles:
+                valid.append('RIGHT')
+            if i+1 < self.grid_height and self.grid[i+1][j] not in obstacles:
+                valid.append('DOWN')
+            if j-1 >= 0 and self.grid[i][j-1] not in obstacles:
+                valid.append('LEFT')
+        if self.grid[i][j] == gas_station:
+            valid.append('REFILL')
+        valid.append('STOP')  # STOP is always a valid action
+        return valid
 
 
     def initial_state(self):
-        raise NotImplementedError
+        return self.init_state
 
 
     def next_state(self, state, action):
-        raise NotImplementedError
+        """ Implements the transition function T(s,a) """
+        ag_pos, player_number, _, remaining_gas = self.__process_state(state)
+        i, j = ag_pos
+        aux = {'UP'    : (i-1, j),
+               'DOWN'  : (i+1, j),
+               'LEFT'  : (i, j-1),
+               'RIGHT' : (i, j+1),
+               'STOP'  : (i, j),
+               'REFILL': (i, j)}
 
+        # Trying to perform invalid action, stay where there and spend fuel
+        if action not in self.actions(state):
+            return (aux['STOP'], remaining_gas - self.cost(state, action))
+        new_i, new_j = aux[action]
+        if action == 'REFILL':
+            if remaining_gas + util.DEFAULT_REFILL > self.tank_capacity:
+                self.grid[new_i][new_j] = player_number + 7
+                return (aux['REFILL'], self.tank_capacity)
+            else:
+                self.grid[new_i][new_j] = player_number + 7
+                return (aux['REFILL'], remaining_gas + util.DEFAULT_REFILL)
+        if self.grid[new_i][new_j] == 4:  # Agent going to a gas station
+            self.grid[new_i][new_j] = player_number + 7
+        else:
+            self.grid[new_i][new_j] = player_number
+        return (aux[action], remaining_gas - self.cost(state, action))
+
+    def __inside_gas_station(self, state):
+        """ Auxiliary method to find if a player is inside a gas station """
+        grid, _, _, _, _, _ = state
+        player_pos = state[0]
+        i, j = player_pos
+        if grid[i][j] > 2:
+            return True
+        return False
 
     def is_goal_state(self, state):
-        raise NotImplementedError
+        """ Check if state is goal
+
+        Goal state reached if:
+            - All people collected
+        """
+        people_codes = [3, 6, 7]  # Student, Professor and Monitor
+        for i in range(len(self.grid)):
+            for j in range(len(self.grid[0])):
+                if self.grid[i][j] in people_codes:
+                    return False
+        # Outside the for, no person left so it is a goal
+        return True
 
 
     def cost(self, state, action):
-        raise NotImplementedError
+        """ Implements the step cost function
+
+        Invalid actions have cost of 1
+        STOP and REFILL has cost of 0 and
+        Any other valid action has cost of 1
+        """
+        # Action is a invalid action, has cost of one gas unit
+        if action not in self.actions(state):
+            return 1
+        # Action is valid, but it is a STOP or REFILL action, no cost
+        if action in ['STOP', 'REFILL']:
+            return 0
+        return 1  # All other valid actions has cost 1
 
 
 # **********************************************************

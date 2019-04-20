@@ -266,7 +266,9 @@ def run_view(grid_start, agent1=ep2.RandomAgent, agent2=ep2.RandomAgent):
 if __name__ == '__main__':
 
     # Change the following lines to switch between Agents
-    Player1 = ep2 . GetClosestPersonOrRefillAgent
+    # Player1 = ep2 . GetClosestPersonOrRefillAgent
+    # Player1 = ep2 . CollectAllAgent
+    Player1 = ep2 . RandomAgent
     Player2 = ep2 . DoNothingAgent
     # Change the following matrix to start a different game
     GAME_GRID = [[1, 3, 0, 3],

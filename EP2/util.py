@@ -28,7 +28,7 @@ import heapq
 # **********************************************************
 # **   GLOBAL CONSTANTS YOU CAN/MAY HAVE TO CHANGE        **
 # **********************************************************
-MAX_TURNS = 20           # Maximum number of turns until game ends
+MAX_TURNS = 100           # Maximum number of turns until game ends
 MAX_DEPTH = 4            # For agents that need to prune, maxdepth until eval.
 SHOW_INFO = True         # Flag to display full/minimal info on terminal
 SHOW_DISPLAY = True      # Flag to display graphical/terminal game execution

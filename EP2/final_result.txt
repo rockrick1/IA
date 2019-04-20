@@ -1,0 +1,209 @@
+******************************
+Code quality:
+------------------------------
+Code grade: 9.39/10.0	(Great code quality)
+------------------------------
+Standards deviation:
+statement:	0
+info:	0
+convention:	6
+refactor:	19
+warning:	3
+error:	0
+fatal:	0
+------------------------------
+Deviation description:
+useless-super-delegation:	2
+too-few-public-methods:	4
+missing-docstring:	1
+unused-argument:	1
+no-self-use:	2
+consider-using-enumerate:	5
+no-else-return:	9
+too-many-locals:	1
+too-many-return-statements:	1
+too-many-branches:	1
+too-many-statements:	1
+******************************
+Tests:
+------------------------------
+Part00: RandomAgent Improved
+Grade in the Test00: 0.0/10.0
+******************************
+Code quality:
+------------------------------
+Code grade: 9.41/10.0	(Great code quality)
+------------------------------
+Standards deviation:
+statement:	0
+info:	0
+convention:	6
+refactor:	19
+warning:	3
+error:	0
+fatal:	0
+------------------------------
+Deviation description:
+useless-super-delegation:	2
+too-few-public-methods:	4
+missing-docstring:	1
+unused-argument:	1
+no-self-use:	2
+consider-using-enumerate:	5
+no-else-return:	9
+too-many-locals:	1
+too-many-return-statements:	1
+too-many-branches:	1
+too-many-statements:	1
+******************************
+Tests:
+------------------------------
+Part00: RandomAgent Improved
+Grade in the Test00: 0.0/10.0
+******************************
+Code quality:
+------------------------------
+Code grade: 9.41/10.0	(Great code quality)
+------------------------------
+Standards deviation:
+statement:	0
+info:	0
+convention:	6
+refactor:	19
+warning:	3
+error:	0
+fatal:	0
+------------------------------
+Deviation description:
+useless-super-delegation:	2
+too-few-public-methods:	4
+missing-docstring:	1
+unused-argument:	1
+no-self-use:	2
+consider-using-enumerate:	5
+no-else-return:	9
+too-many-locals:	1
+too-many-return-statements:	1
+too-many-branches:	1
+too-many-statements:	1
+******************************
+Tests:
+------------------------------
+Part00: RandomAgent Improved
+Grade in the Test00: 0.0/10.0
+******************************
+Code quality:
+------------------------------
+Code grade: 9.44/10.0	(Great code quality)
+------------------------------
+Standards deviation:
+statement:	0
+info:	0
+convention:	8
+refactor:	18
+warning:	3
+error:	0
+fatal:	0
+------------------------------
+Deviation description:
+too-many-lines:	1
+consider-using-enumerate:	6
+unused-variable:	1
+missing-docstring:	1
+unused-argument:	1
+no-self-use:	2
+no-else-return:	9
+too-few-public-methods:	3
+too-many-locals:	1
+too-many-return-statements:	1
+too-many-branches:	1
+too-many-statements:	1
+useless-super-delegation:	1
+******************************
+Tests:
+------------------------------
+Part00: RandomAgent Improved
+Grade in the Test00: 0.0/10.0
+******************************
+Code quality:
+------------------------------
+Code grade: 9.44/10.0	(Great code quality)
+------------------------------
+Standards deviation:
+statement:	0
+info:	0
+convention:	8
+refactor:	18
+warning:	3
+error:	0
+fatal:	0
+------------------------------
+Deviation description:
+too-many-lines:	1
+consider-using-enumerate:	6
+unused-variable:	1
+missing-docstring:	1
+unused-argument:	1
+no-self-use:	2
+no-else-return:	9
+too-few-public-methods:	3
+too-many-locals:	1
+too-many-return-statements:	1
+too-many-branches:	1
+too-many-statements:	1
+useless-super-delegation:	1
+******************************
+Tests:
+------------------------------
+Part00: RandomAgent Improved
+Grade in the Test00: 0.0/10.0
+******************************
+Code quality:
+------------------------------
+Code grade: 9.44/10.0	(Great code quality)
+------------------------------
+Standards deviation:
+statement:	0
+info:	0
+convention:	8
+refactor:	18
+warning:	3
+error:	0
+fatal:	0
+------------------------------
+Deviation description:
+too-many-lines:	1
+consider-using-enumerate:	6
+unused-variable:	1
+missing-docstring:	1
+unused-argument:	1
+no-self-use:	2
+no-else-return:	9
+too-few-public-methods:	3
+too-many-locals:	1
+too-many-return-statements:	1
+too-many-branches:	1
+too-many-statements:	1
+useless-super-delegation:	1
+******************************
+Tests:
+------------------------------
+Part00: RandomAgent Improved
+Test concluded without errors
+Grade in the Test00: 8.0/10.0
+------------------------------
+Part01:
+Test concluded without errors
+Grade in the Test01: 2.5/10.0
+------------------------------
+Part02:
+This autograder does not test Part02
+because we need two instances of AlphaBetaAgent:
+    -One using evaluation_function
+    -One using my_better_evaluation_function
+In order to test your implementation
+you should run both instances against GetClosest
+using different game grids, like the ones
+presented in interesting_grids.txt.
+The agent using my_better should be able to
+get equal or higher score in most of the examples.
