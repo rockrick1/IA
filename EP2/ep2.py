@@ -167,8 +167,8 @@ class CollectAllAgent(util.Agent):
         """ Heuristic to be used by the A* algorithm """
         seq = node.state[2]
         pos = node.state[0]
-        print(seq)
         if len(seq) > 0:
+            print(seq[0])
             return abs(pos[0]-seq[0][0])+abs(pos[1]-seq[0][1])
         return util.INT_INFTY
 
@@ -386,7 +386,7 @@ class CollectAllProblem(util.Problem):
         """ Is goal if the queue for picking up people is empty
         """
         pos = state[0]
-        if len(state[2]) == 0 or pos == state[2][0]:
+        if pos == self.get_sequence()[0]:
             return True
         return False
 
