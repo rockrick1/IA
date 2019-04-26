@@ -32,7 +32,7 @@ MAX_TURNS = 100           # Maximum number of turns until game ends
 MAX_DEPTH = 4            # For agents that need to prune, maxdepth until eval.
 SHOW_INFO = True         # Flag to display full/minimal info on terminal
 SHOW_DISPLAY = True      # Flag to display graphical/terminal game execution
-TANK_CAPACITY = 5        # Define the tank capacity to all cars
+TANK_CAPACITY = 10        # Define the tank capacity to all cars
 DEFAULT_REFILL = 10      # Controls the maximum amount of combustive per refill
 
 # **********************************************************

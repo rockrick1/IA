@@ -109,31 +109,63 @@ class RandomAgent(util.Agent):
 # **                    PART 01 START                     **
 # **********************************************************
 class CollectAllAgent(util.Agent):
-    """ Your first agent from scratch
-    The CollectAllAgent class is a subclass of Agent that implements a
-    specific agent whose objective is to plan to get all people in the
-    grid by spending the lowest amount of fuel possible.
-
-    You are free to implement as many methods as you like but you MUST
-    at least implement the get_action method.
-
-    .. seealso::
-        You may use the GetClosestPersonOrRefillAgent as reference for your
-        work here
-    """
     def __init__(self, **kwargs):
         """
-        Unless you decide that you need additional attributes, like problem
-        reference and problem instantiation (see GetClosestPersonOrRefill), you
-        are safe to go with the just the line below.
+        As stated before, all information that will be passed during the
+        initialization is packed in the kwargs and, because of that, unless
+        you decided to implement fancy attributes here, you can safely
+        pass the kwargs dictionary directly to the superclass constructor.
+        For pedagogical reasons, we decided that we will instatiate additional
+        attributes here that will be later set via start_agent method.
         """
         super().__init__(**kwargs)
-        self.problem_reference = CollectAllAgentProblem
+        self.problem_reference = CollectAllProblem
         self.problem = None
+        self.goal = 0
 
-    def manhattan_distance(self, node):
+
+    def __state_from_perception(self, perception):
+        """ Private method to help to convert a perception into a state
+
+        This is a helper method that converts a perception passed from the
+        environment into a state to be used in the search problem.
+
+        :param perception: The perception your agent acquires from the
+            environment.
+        :type perception: Problem dependent (for this programming assignment a
+            tuple with the grid matrix and the remaining fuel for your agent)
+        :return: A problem state according with your conception of problem.
+            (E.g. for GetClosestPersonOrRefillProblem, we chose a state as a
+            tuple with the agent coordinates and its remaining fuel)
+        """
+        grid, remaining_gas = perception
+        # Car and car parked on the gas station
+        player_values = [self.player_number, self.player_number+7]
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                if grid[i][j] in player_values:
+                    return ((i, j), remaining_gas, 0)
+        return None
+
+
+    def start_agent(self, perception, problem, **kwargs):
+        """ Initialize all non-default attributes in the agent
+
+        This is a helper method to allow the instantiation of all non-default
+        attributes from this class.
+        In this particular case, we are instantiating a search problem
+        according with the perception and the specs provided.
+        """
+        self.initial_state = self.__state_from_perception(perception)
+        grid, _ = perception
+        new_grid = copy.deepcopy(grid)
+        self.problem = problem(new_grid, self.initial_state, **kwargs)
+
+
+
+    def heuristic(self, node):
         """ Heuristic to be used by the A* algorithm """
-        goals = self.problem.people_position
+        goals = self.problem.get_people_position()
         state = node.state[0]
         best_distance = util.INT_INFTY
         for people in goals:
@@ -142,38 +174,24 @@ class CollectAllAgent(util.Agent):
                 best_distance = manhattan
         return best_distance
 
-    def heuristic(self, node):
-        return random.random()
-
-    def __state_from_perception(self, perception):
-        """ Private method to help to convert a perception into a state """
-        grid, remaining_gas = perception
-        # Car and car parked on the gas station
-        player_values = [self.player_number, self.player_number+7]
-        for i in range(len(grid)):
-            for j in range(len(grid[0])):
-                if grid[i][j] in player_values:
-                    return ((i, j), remaining_gas)
-        return None
-
-    def start_agent(self, perception, problem, **kwargs):
-        """ Initialize all non-default attributes in the agent """
-
-        self.initial_state = self.__state_from_perception(perception)
-        grid, _ = perception
-        new_grid = copy.deepcopy(grid)
-        self.problem = problem(new_grid, self.initial_state, **kwargs)
 
     def get_action(self, perception):
-        """ Receives a perception, do a search and returns an action """
+        """ This is the main method for all your agents
 
+        Along with the __init__, you must at least implement this method in
+        all your agents to make them work properly.
+
+        This method receives a perception from the environment and returns
+        an action after performing the A* search with manhattan_distance as
+        heuristics.
+        """
         self.start_agent(perception, self.problem_reference,
                          tank_capacity=self.tank_capacity)
-        node = util.a_star(self.problem, self.manhattan_distance)
-
+        node = util.a_star(self.problem, self.heuristic)
         if not node:  # Search did not find any action
             return 'STOP'
         action = node.action
+        print(node.state)
         last_action = None
         while node.parent is not None:
             node = node.parent
@@ -182,11 +200,11 @@ class CollectAllAgent(util.Agent):
         return last_action
 
 
-class CollectAllAgentProblem(util.Problem):
-    """ Class that implements the problem for the CollectAllAgent
+class CollectAllProblem(util.Problem):
+    """ Class that implements the problem for the GetClosestPersonOrRefillAgent
 
-    You must at least extend the following methods, but you are free to
-    include any other method you see fit.
+    For this particular agent it performs an A* search with manhattan distance
+    as heuristic.
     """
     def __init__(self, grid, initial_state, **kwargs):
         self.grid = copy.deepcopy(grid)
@@ -196,17 +214,8 @@ class CollectAllAgentProblem(util.Problem):
         self.people_position = self.__all_people()
         self.tank_capacity = kwargs.get('tank_capacity', util.INT_INFTY)
         self.max_depth = kwargs.get('max_depth', util.MAX_DEPTH)
+        self.goal = len(self.people_position)
 
-    def __all_people(self):
-        """ Private method that find all people in the grid returning a dict
-        """
-        people_pos = {}
-        people_numbers = [3, 6, 7]
-        for i in range(len(self.grid)):
-            for j in range(len(self.grid[0])):
-                if self.grid[i][j] in people_numbers:
-                    people_pos[(i, j)] = self.grid[i][j]
-        return people_pos
 
     def __process_state(self, state):
         """ Private method that process a given state returning relevant info
@@ -223,7 +232,7 @@ class CollectAllAgentProblem(util.Problem):
         :return full_info: A tuple with the four info described above
         :rtype: <class 'tuple'>
         """
-        agent_pos, remaining_gas = state
+        agent_pos, remaining_gas, collected = state
         i, j = agent_pos
         grid_number = self.grid[i][j]
         if grid_number not in [1, 2, 8, 9]:
@@ -237,12 +246,43 @@ class CollectAllAgentProblem(util.Problem):
             obstacles = [2, 5, 9]
         else:
             obstacles = [1, 5, 8]
-        full_info = (agent_pos, player_number, obstacles, remaining_gas)
+        full_info = (agent_pos, player_number, obstacles, remaining_gas, collected)
         return full_info
+
+
+    def initial_state(self):
+        """ Gets the initial state """
+        return self.init_state
+
+
+    def get_people_position(self):
+        """ Auxiliary method that returns the dictionary of people positions """
+        return self.people_position
+
+
+    def __all_people(self):
+        """ Private method that find all people in the grid returning a dict
+
+        Private method to help the identification of goal_state.
+        It find all people inside the grid and returns a dict with indexed
+        by the people coordinate whose value is the people code in the grid.
+
+        :return people_pos: A dictionary with (i,j) coord as index and
+            people code number as value
+        :rtype: <class 'dict'>
+        """
+        people_pos = {}
+        people_numbers = [3, 6, 7]
+        for i in range(len(self.grid)):
+            for j in range(len(self.grid[0])):
+                if self.grid[i][j] in people_numbers:
+                    people_pos[(i, j)] = self.grid[i][j]
+        return people_pos
+
 
     def actions(self, state):
         """ Returns a list of valid actions for a given state """
-        ag_pos, pl_number, obstacles, rem_gas = self.__process_state(state)
+        ag_pos, pl_number, obstacles, rem_gas, _ = self.__process_state(state)
         i, j = ag_pos
         gas_station = pl_number + 7
 
@@ -262,14 +302,12 @@ class CollectAllAgentProblem(util.Problem):
         return valid
 
 
-    def initial_state(self):
-        return self.init_state
-
-
     def next_state(self, state, action):
         """ Implements the transition function T(s,a) """
-        ag_pos, player_number, _, remaining_gas = self.__process_state(state)
+        ag_pos, player_number, _, remaining_gas, collected = self.__process_state(state)
         i, j = ag_pos
+        people_numbers = [3, 6, 7]
+        print("next, collected:", collected)
         aux = {'UP'    : (i-1, j),
                'DOWN'  : (i+1, j),
                'LEFT'  : (i, j-1),
@@ -279,43 +317,39 @@ class CollectAllAgentProblem(util.Problem):
 
         # Trying to perform invalid action, stay where there and spend fuel
         if action not in self.actions(state):
-            return (aux['STOP'], remaining_gas - self.cost(state, action))
+            return (aux['STOP'], remaining_gas - self.cost(state, action), collected)
         new_i, new_j = aux[action]
         if action == 'REFILL':
             if remaining_gas + util.DEFAULT_REFILL > self.tank_capacity:
                 self.grid[new_i][new_j] = player_number + 7
-                return (aux['REFILL'], self.tank_capacity)
+                return (aux['REFILL'], self.tank_capacity, collected)
             else:
                 self.grid[new_i][new_j] = player_number + 7
-                return (aux['REFILL'], remaining_gas + util.DEFAULT_REFILL)
+                return (aux['REFILL'], remaining_gas + util.DEFAULT_REFILL, collected)
         if self.grid[new_i][new_j] == 4:  # Agent going to a gas station
             self.grid[new_i][new_j] = player_number + 7
         else:
+            if self.grid[new_i][new_j] in people_numbers:
+                # self.people_position.pop((new_i,new_j))
+                print(self.people_position)
+                collected += 1
+                print(collected)
             self.grid[new_i][new_j] = player_number
-        return (aux[action], remaining_gas - self.cost(state, action))
+        return (aux[action], remaining_gas - self.cost(state, action), collected)
 
-    def __inside_gas_station(self, state):
-        """ Auxiliary method to find if a player is inside a gas station """
-        grid, _, _, _, _, _ = state
-        player_pos = state[0]
-        i, j = player_pos
-        if grid[i][j] > 2:
-            return True
-        return False
 
     def is_goal_state(self, state):
-        """ Check if state is goal
+        ag_pos, _, _, _, collected = self.__process_state(state)
+        if collected == self.goal:
+            print("yay", collected)
+            return True
+        return False
+        # if len(self.people_position) == 0:
+        #     return True
 
-        Goal state reached if:
-            - All people collected
-        """
-        people_codes = [3, 6, 7]  # Student, Professor and Monitor
-        for i in range(len(self.grid)):
-            for j in range(len(self.grid[0])):
-                if self.grid[i][j] in people_codes:
-                    return False
-        # Outside the for, no person left so it is a goal
-        return True
+        if ag_pos in self.people_position:
+            return True
+        return False
 
 
     def cost(self, state, action):
