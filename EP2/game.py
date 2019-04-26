@@ -267,7 +267,6 @@ if __name__ == '__main__':
 
     # Change the following lines to switch between Agents
     # Player1 = ep2 . GetClosestPersonOrRefillAgent
-    # Player1 = ep2 . CollectAllAgent
     Player1 = ep2 . CollectAllAgent
     Player2 = ep2 . DoNothingAgent
     # Change the following matrix to start a different game

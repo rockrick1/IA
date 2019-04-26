@@ -27,6 +27,7 @@
 import copy
 import random
 import util
+import itertools
 
 # **********************************************************
 # **                    PART 00 START                     **
@@ -144,7 +145,7 @@ class CollectAllAgent(util.Agent):
         for i in range(len(grid)):
             for j in range(len(grid[0])):
                 if grid[i][j] in player_values:
-                    return ((i, j), remaining_gas, 0)
+                    return ((i, j), remaining_gas, )
         return None
 
 
@@ -162,17 +163,21 @@ class CollectAllAgent(util.Agent):
         self.problem = problem(new_grid, self.initial_state, **kwargs)
 
 
-
     def heuristic(self, node):
         """ Heuristic to be used by the A* algorithm """
-        goals = self.problem.get_people_position()
-        state = node.state[0]
-        best_distance = util.INT_INFTY
-        for people in goals:
-            manhattan = abs(state[0]-people[0])+abs(state[1]-people[1])
-            if manhattan < best_distance:
-                best_distance = manhattan
-        return best_distance
+        seq = node.state[2]
+        pos = node.state[0]
+        print(seq)
+        if len(seq) > 0:
+            return abs(pos[0]-seq[0][0])+abs(pos[1]-seq[0][1])
+        return util.INT_INFTY
+
+        # best_distance = util.INT_INFTY
+        # for people in goals:
+        #     manhattan = abs(state[0]-people[0])+abs(state[1]-people[1])
+        #     if manhattan < best_distance:
+        #         best_distance = manhattan
+        # return best_distance
 
 
     def get_action(self, perception):
@@ -208,13 +213,46 @@ class CollectAllProblem(util.Problem):
     """
     def __init__(self, grid, initial_state, **kwargs):
         self.grid = copy.deepcopy(grid)
-        self.init_state = initial_state
         self.grid_height = len(self.grid)
         self.grid_width = len(self.grid[0])
         self.people_position = self.__all_people()
+        self.best_seq = self.__process_sequence(initial_state[0])
+        self.init_state = (initial_state[0], initial_state[1], self.best_seq)
         self.tank_capacity = kwargs.get('tank_capacity', util.INT_INFTY)
         self.max_depth = kwargs.get('max_depth', util.MAX_DEPTH)
-        self.goal = len(self.people_position)
+
+
+    def __process_sequence(self, pos):
+        """ Here we will find out the order in which we have to pick up
+        the people. This order will be used in the heuristic function """
+        goals = self.get_people_position()
+        goals_list = []
+        pair_dists = {}
+
+        for person1 in goals:
+            print(person1)
+            goals_list.append(person1)
+            pair_dists[person1] = {}
+            for person2 in goals:
+                if person1 != person2:
+                    pair_dists[person1][person2] = abs(person1[0]-person2[0])+abs(person1[1]-person2[1])
+
+        print(pair_dists)
+
+        permutations = list(itertools.permutations(goals_list))
+        best = util.INT_INFTY
+        for seq in permutations:
+            # distance to first person in the current sequence
+            print(seq, "pos ",pos)
+            dist_to_first = abs(pos[0]-seq[0][0])+abs(pos[1]-seq[0][1])
+            seq_dist = 0
+            for i in range(len(seq) - 1):
+                seq_dist += pair_dists[seq[i]][seq[i+1]]
+            if dist_to_first + seq_dist < best:
+                best = dist_to_first + seq_dist
+                best_seq = seq
+                print("this da best ^")
+        return best_seq
 
 
     def __process_state(self, state):
@@ -232,7 +270,7 @@ class CollectAllProblem(util.Problem):
         :return full_info: A tuple with the four info described above
         :rtype: <class 'tuple'>
         """
-        agent_pos, remaining_gas, collected = state
+        agent_pos, remaining_gas, seq = state
         i, j = agent_pos
         grid_number = self.grid[i][j]
         if grid_number not in [1, 2, 8, 9]:
@@ -246,7 +284,7 @@ class CollectAllProblem(util.Problem):
             obstacles = [2, 5, 9]
         else:
             obstacles = [1, 5, 8]
-        full_info = (agent_pos, player_number, obstacles, remaining_gas, collected)
+        full_info = (agent_pos, player_number, obstacles, remaining_gas, seq)
         return full_info
 
 
@@ -258,6 +296,11 @@ class CollectAllProblem(util.Problem):
     def get_people_position(self):
         """ Auxiliary method that returns the dictionary of people positions """
         return self.people_position
+
+
+    def get_sequence(self):
+        """ Auxiliary method that returns the sequence for pickung up people """
+        return self.best_seq
 
 
     def __all_people(self):
@@ -304,10 +347,10 @@ class CollectAllProblem(util.Problem):
 
     def next_state(self, state, action):
         """ Implements the transition function T(s,a) """
-        ag_pos, player_number, _, remaining_gas, collected = self.__process_state(state)
+        ag_pos, player_number, _, remaining_gas, seq = self.__process_state(state)
+        new_seq = seq
         i, j = ag_pos
         people_numbers = [3, 6, 7]
-        print("next, collected:", collected)
         aux = {'UP'    : (i-1, j),
                'DOWN'  : (i+1, j),
                'LEFT'  : (i, j-1),
@@ -317,37 +360,33 @@ class CollectAllProblem(util.Problem):
 
         # Trying to perform invalid action, stay where there and spend fuel
         if action not in self.actions(state):
-            return (aux['STOP'], remaining_gas - self.cost(state, action), collected)
+            return (aux['STOP'], remaining_gas - self.cost(state, action), new_seq)
         new_i, new_j = aux[action]
+
         if action == 'REFILL':
             if remaining_gas + util.DEFAULT_REFILL > self.tank_capacity:
                 self.grid[new_i][new_j] = player_number + 7
-                return (aux['REFILL'], self.tank_capacity, collected)
+                return (aux['REFILL'], self.tank_capacity, new_seq)
             else:
                 self.grid[new_i][new_j] = player_number + 7
-                return (aux['REFILL'], remaining_gas + util.DEFAULT_REFILL, collected)
+                return (aux['REFILL'], remaining_gas + util.DEFAULT_REFILL, new_seq)
         if self.grid[new_i][new_j] == 4:  # Agent going to a gas station
             self.grid[new_i][new_j] = player_number + 7
         else:
-            if self.grid[new_i][new_j] in people_numbers:
-                # self.people_position.pop((new_i,new_j))
-                print(self.people_position)
-                collected += 1
-                print(collected)
+            if self.grid[new_i][new_j] in people_numbers or (new_i, new_j) == seq[0]:
+                new_seq = []
+                for i in range(1,len(seq)):
+                    new_seq.append(seq[i])
+                new_seq = tuple(new_seq)
             self.grid[new_i][new_j] = player_number
-        return (aux[action], remaining_gas - self.cost(state, action), collected)
+        return (aux[action], remaining_gas - self.cost(state, action), new_seq)
 
 
     def is_goal_state(self, state):
-        ag_pos, _, _, _, collected = self.__process_state(state)
-        if collected == self.goal:
-            print("yay", collected)
-            return True
-        return False
-        # if len(self.people_position) == 0:
-        #     return True
-
-        if ag_pos in self.people_position:
+        """ Is goal if the queue for picking up people is empty
+        """
+        pos = state[0]
+        if len(state[2]) == 0 or pos == state[2][0]:
             return True
         return False
 
