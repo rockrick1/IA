@@ -29,7 +29,7 @@ import heapq
 # **   GLOBAL CONSTANTS YOU CAN/MAY HAVE TO CHANGE        **
 # **********************************************************
 MAX_TURNS = 100           # Maximum number of turns until game ends
-MAX_DEPTH = 4            # For agents that need to prune, maxdepth until eval.
+MAX_DEPTH = 1            # For agents that need to prune, maxdepth until eval.
 SHOW_INFO = True         # Flag to display full/minimal info on terminal
 SHOW_DISPLAY = True      # Flag to display graphical/terminal game execution
 TANK_CAPACITY = 10        # Define the tank capacity to all cars
@@ -240,6 +240,14 @@ class PriorityQueue:
         return self.items[0][2]
 
 
+    def print_items(self):
+        print("items")
+        for item in self.items:
+            print(item)
+        print("end")
+        print("")
+
+
     def __len__(self):
         return len(self.items)
 
@@ -252,16 +260,21 @@ def informed_search(problem, func):
     reached = dict()
     reached[initial_node.state] = initial_node.cost
     while frontier:
+        frontier.print_items()
         node = frontier.pop()
+        print("popped", node)
         if problem.is_goal_state(node.state):
             return node
         for action in problem.actions(node.state):
             state = problem.next_state(node.state, action)
             cost = problem.cost(node.state, action) + node.cost
+            print(action, cost)
             #frontier.add(Node(state, cost, node, action))
             if state not in reached or cost < reached[state]:
                 reached[state] = cost
                 frontier.add(Node(state, cost, node, action))
+            print("----------")
+        print(30* "!")
     return None
 
 

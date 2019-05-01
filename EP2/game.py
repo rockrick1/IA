@@ -267,13 +267,20 @@ if __name__ == '__main__':
 
     # Change the following lines to switch between Agents
     # Player1 = ep2 . GetClosestPersonOrRefillAgent
-    Player1 = ep2 . CollectAllAgent
+    # Player1 = ep2 . CollectAllAgent
+    Player1 = ep2 . AlphaBetaAgent
+    # Player2 = ep2 . GetClosestPersonOrRefillAgent
     Player2 = ep2 . DoNothingAgent
     # Change the following matrix to start a different game
     # GAME_GRID = [[1, 3, 0, 3],
     #              [7, 5, 4, 2],
     #              [3, 0, 6, 0]]
-    GAME_GRID = [[7, 0, 1, 7, 7, 7, 4, 2]]
+    GAME_GRID = [[0,5,0,5,3],
+                 [0,5,0,5,3],
+                 [0,5,2,5,3],
+                 [3,1,0,0,7],
+                 [0,0,0,0,0]]
+    # GAME_GRID = [[7, 4, 1, 7, 7, 7, 4, 2]]
 
     if util.SHOW_DISPLAY:
         run_view(GAME_GRID, Player1, Player2)

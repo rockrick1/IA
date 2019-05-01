@@ -168,7 +168,6 @@ class CollectAllAgent(util.Agent):
         seq = node.state[2]
         pos = node.state[0]
         if len(seq) > 0:
-            print(seq[0])
             return abs(pos[0]-seq[0][0])+abs(pos[1]-seq[0][1])
         return util.INT_INFTY
 
@@ -237,13 +236,13 @@ class CollectAllProblem(util.Problem):
                 if person1 != person2:
                     pair_dists[person1][person2] = abs(person1[0]-person2[0])+abs(person1[1]-person2[1])
 
-        print(pair_dists)
+        # print("pairs",pair_dists)
 
         permutations = list(itertools.permutations(goals_list))
         best = util.INT_INFTY
         for seq in permutations:
             # distance to first person in the current sequence
-            print(seq, "pos ",pos)
+            # print(seq, "pos ",pos)
             dist_to_first = abs(pos[0]-seq[0][0])+abs(pos[1]-seq[0][1])
             seq_dist = 0
             for i in range(len(seq) - 1):
@@ -251,7 +250,7 @@ class CollectAllProblem(util.Problem):
             if dist_to_first + seq_dist < best:
                 best = dist_to_first + seq_dist
                 best_seq = seq
-                print("this da best ^")
+                # print("this da best ^")
         return best_seq
 
 
@@ -373,7 +372,7 @@ class CollectAllProblem(util.Problem):
         if self.grid[new_i][new_j] == 4:  # Agent going to a gas station
             self.grid[new_i][new_j] = player_number + 7
         else:
-            if self.grid[new_i][new_j] in people_numbers or (new_i, new_j) == seq[0]:
+            if self.grid[new_i][new_j] in people_numbers or (len(seq) > 0 and (new_i, new_j) == seq[0]):
                 new_seq = []
                 for i in range(1,len(seq)):
                     new_seq.append(seq[i])
@@ -473,7 +472,7 @@ class AlphaBetaAgentProblem(util.Problem):
         self.max_depth = kwargs.get('max_depth', util.MAX_DEPTH)
         self.cutoff_test = kwargs.get('cutoff_test', self.cutoff_by_depth)
         self.init_state = state
-        self.eval_fn = kwargs.get('eval_fn', self.evaluation_function)
+        self.eval_fn = kwargs.get('eval_fn', self.my_better_evaluation_function)
 
 
     def initial_state(self):
@@ -733,8 +732,40 @@ class AlphaBetaAgentProblem(util.Problem):
 
     def my_better_evaluation_function(self, state, player=1):
         """ Here you must implement your own evaluation function """
-        raise NotImplementedError
+        grid, _, a1g, a2g, a1p, a2p = state
+        pos = (-1,-1)
+        value = 0
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                if grid[i][j] == player:
+                    pos = (i,j)
 
+        people_codes = [3, 6, 7]
+        # extra points if got the last person
+        empty = 1
+        # gets the distance to every person, and sums up 1/(each one of the distances)
+        # that way, the closest you are to a bigger group of people, the higher the value
+
+        # also returns the current points of the player, so there is a motivation
+        # to pick people up
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                if grid[i][j] in people_codes:
+                    empty = 0
+                    dist = abs(i-pos[0])+abs(j-pos[1])
+                    value += 1/(dist)
+        return value + a1p*1.1 + empty*10
+
+    def manhattan_distance(self, node):
+        """ Heuristic to be used by the A* algorithm """
+        goals = self.problem.get_people_position()
+        state = node.state[0]
+        best_distance = util.INT_INFTY
+        for people in goals:
+            manhattan = abs(state[0]-people[0])+abs(state[1]-people[1])
+            if manhattan < best_distance:
+                best_distance = manhattan
+        return best_distance
 
     def alphabeta_search(self, state, depth=0):
         """ Alpha/Beta search using cutoff_test and eval_fn """
