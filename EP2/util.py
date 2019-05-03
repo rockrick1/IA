@@ -260,21 +260,15 @@ def informed_search(problem, func):
     reached = dict()
     reached[initial_node.state] = initial_node.cost
     while frontier:
-        frontier.print_items()
         node = frontier.pop()
-        print("popped", node)
         if problem.is_goal_state(node.state):
             return node
         for action in problem.actions(node.state):
             state = problem.next_state(node.state, action)
             cost = problem.cost(node.state, action) + node.cost
-            print(action, cost)
-            #frontier.add(Node(state, cost, node, action))
             if state not in reached or cost < reached[state]:
                 reached[state] = cost
                 frontier.add(Node(state, cost, node, action))
-            print("----------")
-        print(30* "!")
     return None
 
 

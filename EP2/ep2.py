@@ -46,7 +46,7 @@ class RandomAgent(util.Agent):
         self.grid = grid
         self.grid_height = len(self.grid)
         self.grid_width = len(self.grid[0])
-        # Car and car parked on the gas station
+        # Car parked on the gas station
         player_values = [self.player_number, self.player_number+7]
         for i in range(len(grid)):
             for j in range(len(grid[0])):
@@ -75,7 +75,8 @@ class RandomAgent(util.Agent):
         return full_info
 
     def actions(self, state):
-        """ Returns a list of valid actions for a given state """
+        """ Returns a list of valid actions for a given state,
+        this time taking into consideration obstacles and grid size """
         ag_pos, pl_number, obstacles, rem_gas = self.__process_state(state)
         i, j = ag_pos
         gas_station = pl_number + 7
@@ -96,9 +97,8 @@ class RandomAgent(util.Agent):
         return valid
 
     def get_action(self, perception):
+        """ Chooses a random action from the list of valid actions """
         state = self.__state_from_perception(perception)
-        print(self.actions(state))
-        print(state)
         return random.choice(self.actions(state))
 
 
@@ -138,14 +138,15 @@ class CollectAllAgent(util.Agent):
         :return: A problem state according with your conception of problem.
             (E.g. for GetClosestPersonOrRefillProblem, we chose a state as a
             tuple with the agent coordinates and its remaining fuel)
+            For this agent, the state will also have the sequence in which
+            he will pick up each person, so that will be used in the heuristic.
         """
         grid, remaining_gas = perception
-        # Car and car parked on the gas station
         player_values = [self.player_number, self.player_number+7]
         for i in range(len(grid)):
             for j in range(len(grid[0])):
                 if grid[i][j] in player_values:
-                    return ((i, j), remaining_gas, )
+                    return ((i, j), remaining_gas)
         return None
 
 
@@ -164,19 +165,18 @@ class CollectAllAgent(util.Agent):
 
 
     def heuristic(self, node):
-        """ Heuristic to be used by the A* algorithm """
+        """ Heuristic to be used by the A* algorithm
+        Here, we have that state[2] is the sequence for picking up people.
+        That is, seq[0] is the first person to be picked up, seq[1] is the
+        second, etc. Therefore, the heuristic will be the manhattan distance
+        between the agent and seq[0] everytime, given that seq is updated
+        everytime a person is picked up.
+        """
         seq = node.state[2]
         pos = node.state[0]
         if len(seq) > 0:
             return abs(pos[0]-seq[0][0])+abs(pos[1]-seq[0][1])
         return util.INT_INFTY
-
-        # best_distance = util.INT_INFTY
-        # for people in goals:
-        #     manhattan = abs(state[0]-people[0])+abs(state[1]-people[1])
-        #     if manhattan < best_distance:
-        #         best_distance = manhattan
-        # return best_distance
 
 
     def get_action(self, perception):
@@ -189,13 +189,20 @@ class CollectAllAgent(util.Agent):
         an action after performing the A* search with manhattan_distance as
         heuristics.
         """
+        state = self.__state_from_perception(perception)
+        i,j = state[0]
+        grid, _ = perception
+
+        # if gas station and tank not full, refill
+        if grid[i][j] == self.player_number+7 and state[1] < self.tank_capacity:
+            return 'REFILL'
+
         self.start_agent(perception, self.problem_reference,
                          tank_capacity=self.tank_capacity)
         node = util.a_star(self.problem, self.heuristic)
         if not node:  # Search did not find any action
             return 'STOP'
         action = node.action
-        print(node.state)
         last_action = None
         while node.parent is not None:
             node = node.parent
@@ -209,6 +216,8 @@ class CollectAllProblem(util.Problem):
 
     For this particular agent it performs an A* search with manhattan distance
     as heuristic.
+
+    Mostrly copied from the GetClosestPersonOrRefillProblem
     """
     def __init__(self, grid, initial_state, **kwargs):
         self.grid = copy.deepcopy(grid)
@@ -226,8 +235,11 @@ class CollectAllProblem(util.Problem):
         the people. This order will be used in the heuristic function """
         goals = self.get_people_position()
         goals_list = []
+        # This will be a 'dictionary matrix', containing the distances
+        # between every pair of person
         pair_dists = {}
 
+        # Floyd Warshall like search for each person
         for person1 in goals:
             print(person1)
             goals_list.append(person1)
@@ -236,21 +248,20 @@ class CollectAllProblem(util.Problem):
                 if person1 != person2:
                     pair_dists[person1][person2] = abs(person1[0]-person2[0])+abs(person1[1]-person2[1])
 
-        # print("pairs",pair_dists)
-
+        # for every permutation of the sequence of people, we'll check which
+        # one has the smallest distance sum
         permutations = list(itertools.permutations(goals_list))
         best = util.INT_INFTY
         for seq in permutations:
-            # distance to first person in the current sequence
-            # print(seq, "pos ",pos)
+            # distance from the agent to first person in the current sequence
             dist_to_first = abs(pos[0]-seq[0][0])+abs(pos[1]-seq[0][1])
             seq_dist = 0
+            # rest of the distance
             for i in range(len(seq) - 1):
                 seq_dist += pair_dists[seq[i]][seq[i+1]]
             if dist_to_first + seq_dist < best:
                 best = dist_to_first + seq_dist
                 best_seq = seq
-                # print("this da best ^")
         return best_seq
 
 
@@ -268,6 +279,8 @@ class CollectAllProblem(util.Problem):
         :type state: <class 'tuple'>
         :return full_info: A tuple with the four info described above
         :rtype: <class 'tuple'>
+
+        Here, we also return the sequence processed above.
         """
         agent_pos, remaining_gas, seq = state
         i, j = agent_pos
@@ -382,7 +395,8 @@ class CollectAllProblem(util.Problem):
 
 
     def is_goal_state(self, state):
-        """ Is goal if the queue for picking up people is empty
+        """ Is goal if the current position equals the one in the start of
+        the sequence.
         """
         pos = state[0]
         if pos == self.get_sequence()[0]:
@@ -735,6 +749,7 @@ class AlphaBetaAgentProblem(util.Problem):
         grid, _, a1g, a2g, a1p, a2p = state
         pos = (-1,-1)
         value = 0
+        # finds agent in the grid
         for i in range(len(grid)):
             for j in range(len(grid[0])):
                 if grid[i][j] == player:
@@ -744,10 +759,14 @@ class AlphaBetaAgentProblem(util.Problem):
         # extra points if got the last person
         empty = 1
         # gets the distance to every person, and sums up 1/(each one of the distances)
-        # that way, the closest you are to a bigger group of people, the higher the value
+        # that way, the closest you are to a bigger group of people,
+        # the higher the value.
 
         # also returns the current points of the player, so there is a motivation
         # to pick people up
+
+        # lastly, returns a bonus if the board is empty, motivating the agent
+        # to finish the game
         for i in range(len(grid)):
             for j in range(len(grid[0])):
                 if grid[i][j] in people_codes:
