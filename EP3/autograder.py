@@ -157,7 +157,7 @@ def run_tests():
         file_results.write("Receiving grade 0.0 in the test\n")
     else:
         file_results.write("Test concluded without errors\n")
-        
+
     finally:
         file_results.write("Grade in the Test01: {0:.1f}/10.0\n".format(final_grades[1]))
 
@@ -226,7 +226,7 @@ def run_tests():
         file_results.write("------------------------------\n")
         file_results.write("Part02-02 Peeking MDP:\n")
 
-        
+
         mdpP = peekingMDP()
         vi = ValueIteration()
         with Timeout(10):
@@ -410,7 +410,7 @@ def run_tests():
         #file_results.write("Grade in the test: {0:.1f}/10.0\n".format(final_grades[0]))
     finally:
         file_results.write("Grade in the Test03-02: {0:.1f}/10.0\n".format(final_grades[4]))
-    
+
     # Concluding and updating csv with grades
     if os.path.exists("../results.csv"):
         csv_flag = "a"

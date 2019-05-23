@@ -1,0 +1,1014 @@
+******************************
+Code quality:
+------------------------------
+Code grade: 5.93/10.0	(Code with reasonably quality)
+------------------------------
+Standards deviation:
+statement:	0
+info:	0
+convention:	35
+refactor:	2
+warning:	4
+error:	1
+fatal:	0
+------------------------------
+Deviation description:
+bad-whitespace:	1
+superfluous-parens:	2
+line-too-long:	1
+invalid-name:	28
+redefined-builtin:	1
+singleton-comparison:	3
+unsupported-assignment-operation:	1
+unused-variable:	1
+too-many-branches:	1
+arguments-differ:	1
+unreachable:	1
+too-few-public-methods:	1
+******************************
+Tests:
+------------------------------
+Parte01-01 Modeling MDPs:
+Modeling MDPs:	1/2 correct
+Test concluded without errors
+Grade in the Test01: 5.0/10.0
+------------------------------
+Part02-01 ValueIteration::
+Python error: unhashable type: 'list'
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test02-01: 0.0/10.0
+------------------------------
+Part02-02 Peeking MDP:
+Python error: Not implemented yet
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test02-02: 0.0/10.0
+------------------------------
+Part03-01 QLearningAlgorithm:
+Python error: Not implemented yet
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test03-01: 0.0/10.0
+------------------------------
+Part03-02 BlackjackFeatureExtractor:
+Python error: unhashable type: 'list'
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test03-02: 0.0/10.0
+******************************
+Code quality:
+------------------------------
+Code grade: 5.93/10.0	(Code with reasonably quality)
+------------------------------
+Standards deviation:
+statement:	0
+info:	0
+convention:	35
+refactor:	2
+warning:	4
+error:	1
+fatal:	0
+------------------------------
+Deviation description:
+bad-whitespace:	1
+superfluous-parens:	2
+line-too-long:	1
+invalid-name:	28
+redefined-builtin:	1
+singleton-comparison:	3
+unsupported-assignment-operation:	1
+unused-variable:	1
+too-many-branches:	1
+arguments-differ:	1
+unreachable:	1
+too-few-public-methods:	1
+******************************
+Tests:
+------------------------------
+Parte01-01 Modeling MDPs:
+Modeling MDPs:	1/2 correct
+Test concluded without errors
+Grade in the Test01: 5.0/10.0
+------------------------------
+Part02-01 ValueIteration::
+Python error: unhashable type: 'list'
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test02-01: 0.0/10.0
+------------------------------
+Part02-02 Peeking MDP:
+Python error: Not implemented yet
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test02-02: 0.0/10.0
+------------------------------
+Part03-01 QLearningAlgorithm:
+Python error: Not implemented yet
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test03-01: 0.0/10.0
+------------------------------
+Part03-02 BlackjackFeatureExtractor:
+Python error: unhashable type: 'list'
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test03-02: 0.0/10.0
+******************************
+Code quality:
+------------------------------
+Code grade: 5.93/10.0	(Code with reasonably quality)
+------------------------------
+Standards deviation:
+statement:	0
+info:	0
+convention:	35
+refactor:	2
+warning:	4
+error:	1
+fatal:	0
+------------------------------
+Deviation description:
+bad-whitespace:	1
+superfluous-parens:	2
+line-too-long:	1
+invalid-name:	28
+redefined-builtin:	1
+singleton-comparison:	3
+unsupported-assignment-operation:	1
+unused-variable:	1
+too-many-branches:	1
+arguments-differ:	1
+unreachable:	1
+too-few-public-methods:	1
+******************************
+Tests:
+------------------------------
+Parte01-01 Modeling MDPs:
+Modeling MDPs:	1/2 correct
+Test concluded without errors
+Grade in the Test01: 5.0/10.0
+------------------------------
+Part02-01 ValueIteration::
+Python error: unhashable type: 'list'
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test02-01: 0.0/10.0
+------------------------------
+Part02-02 Peeking MDP:
+Python error: Not implemented yet
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test02-02: 0.0/10.0
+------------------------------
+Part03-01 QLearningAlgorithm:
+Python error: Not implemented yet
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test03-01: 0.0/10.0
+------------------------------
+Part03-02 BlackjackFeatureExtractor:
+Python error: unhashable type: 'list'
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test03-02: 0.0/10.0
+******************************
+Code quality:
+------------------------------
+Code grade: 5.96/10.0	(Code with reasonably quality)
+------------------------------
+Standards deviation:
+statement:	0
+info:	0
+convention:	35
+refactor:	2
+warning:	4
+error:	1
+fatal:	0
+------------------------------
+Deviation description:
+bad-whitespace:	1
+superfluous-parens:	2
+line-too-long:	1
+invalid-name:	28
+redefined-builtin:	1
+singleton-comparison:	3
+unsupported-assignment-operation:	1
+unused-variable:	1
+too-many-branches:	1
+arguments-differ:	1
+unreachable:	1
+too-few-public-methods:	1
+******************************
+Tests:
+------------------------------
+Parte01-01 Modeling MDPs:
+Modeling MDPs:	1/2 correct
+Test concluded without errors
+Grade in the Test01: 5.0/10.0
+------------------------------
+Part02-01 ValueIteration::
+Python error: unhashable type: 'list'
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test02-01: 0.0/10.0
+------------------------------
+Part02-02 Peeking MDP:
+Python error: Not implemented yet
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test02-02: 0.0/10.0
+------------------------------
+Part03-01 QLearningAlgorithm:
+Python error: Not implemented yet
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test03-01: 0.0/10.0
+------------------------------
+Part03-02 BlackjackFeatureExtractor:
+Python error: unhashable type: 'list'
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test03-02: 0.0/10.0
+******************************
+Code quality:
+------------------------------
+Code grade: 5.43/10.0	(Code with reasonably quality)
+------------------------------
+Standards deviation:
+statement:	0
+info:	0
+convention:	36
+refactor:	3
+warning:	4
+error:	2
+fatal:	0
+------------------------------
+Deviation description:
+bad-whitespace:	1
+superfluous-parens:	2
+line-too-long:	1
+invalid-name:	28
+redefined-builtin:	1
+too-many-locals:	1
+singleton-comparison:	4
+unsupported-assignment-operation:	1
+no-member:	1
+unused-variable:	1
+too-many-branches:	1
+arguments-differ:	1
+unreachable:	1
+too-few-public-methods:	1
+******************************
+Tests:
+------------------------------
+Parte01-01 Modeling MDPs:
+Python error: 'BlackjackMDP' object has no attribute 'cardVales'
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test01: 0.0/10.0
+------------------------------
+Part02-01 ValueIteration::
+Python error: unhashable type: 'list'
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test02-01: 0.0/10.0
+------------------------------
+Part02-02 Peeking MDP:
+Python error: Not implemented yet
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test02-02: 0.0/10.0
+------------------------------
+Part03-01 QLearningAlgorithm:
+Python error: Not implemented yet
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test03-01: 0.0/10.0
+------------------------------
+Part03-02 BlackjackFeatureExtractor:
+Python error: unhashable type: 'list'
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test03-02: 0.0/10.0
+******************************
+Code quality:
+------------------------------
+Code grade: 5.34/10.0	(Code with reasonably quality)
+------------------------------
+Standards deviation:
+statement:	0
+info:	0
+convention:	37
+refactor:	3
+warning:	4
+error:	2
+fatal:	0
+------------------------------
+Deviation description:
+bad-whitespace:	2
+superfluous-parens:	2
+line-too-long:	1
+invalid-name:	28
+redefined-builtin:	1
+too-many-locals:	1
+singleton-comparison:	4
+unsupported-assignment-operation:	1
+no-member:	1
+unused-variable:	1
+too-many-branches:	1
+arguments-differ:	1
+unreachable:	1
+too-few-public-methods:	1
+******************************
+Tests:
+------------------------------
+Parte01-01 Modeling MDPs:
+Python error: 'BlackjackMDP' object has no attribute 'cardVales'
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test01: 0.0/10.0
+------------------------------
+Part02-01 ValueIteration::
+Python error: unhashable type: 'list'
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test02-01: 0.0/10.0
+------------------------------
+Part02-02 Peeking MDP:
+Python error: Not implemented yet
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test02-02: 0.0/10.0
+------------------------------
+Part03-01 QLearningAlgorithm:
+Python error: Not implemented yet
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test03-01: 0.0/10.0
+------------------------------
+Part03-02 BlackjackFeatureExtractor:
+Python error: unhashable type: 'list'
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test03-02: 0.0/10.0
+******************************
+Code quality:
+------------------------------
+Code grade: 5.34/10.0	(Code with reasonably quality)
+------------------------------
+Standards deviation:
+statement:	0
+info:	0
+convention:	37
+refactor:	3
+warning:	4
+error:	2
+fatal:	0
+------------------------------
+Deviation description:
+bad-whitespace:	2
+superfluous-parens:	2
+line-too-long:	1
+invalid-name:	28
+redefined-builtin:	1
+too-many-locals:	1
+singleton-comparison:	4
+unsupported-assignment-operation:	1
+no-member:	1
+unused-variable:	1
+too-many-branches:	1
+arguments-differ:	1
+unreachable:	1
+too-few-public-methods:	1
+******************************
+Tests:
+------------------------------
+Parte01-01 Modeling MDPs:
+Python error: 'BlackjackMDP' object has no attribute 'cardVales'
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test01: 0.0/10.0
+------------------------------
+Part02-01 ValueIteration::
+Python error: unhashable type: 'list'
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test02-01: 0.0/10.0
+------------------------------
+Part02-02 Peeking MDP:
+Python error: Not implemented yet
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test02-02: 0.0/10.0
+------------------------------
+Part03-01 QLearningAlgorithm:
+Python error: Not implemented yet
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test03-01: 0.0/10.0
+------------------------------
+Part03-02 BlackjackFeatureExtractor:
+Python error: unhashable type: 'list'
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test03-02: 0.0/10.0
+******************************
+Code quality:
+------------------------------
+Code grade: 5.43/10.0	(Code with reasonably quality)
+------------------------------
+Standards deviation:
+statement:	0
+info:	0
+convention:	36
+refactor:	3
+warning:	4
+error:	2
+fatal:	0
+------------------------------
+Deviation description:
+bad-whitespace:	1
+superfluous-parens:	2
+line-too-long:	1
+invalid-name:	28
+redefined-builtin:	1
+too-many-locals:	1
+singleton-comparison:	4
+unsupported-assignment-operation:	1
+no-member:	1
+unused-variable:	1
+too-many-branches:	1
+arguments-differ:	1
+unreachable:	1
+too-few-public-methods:	1
+******************************
+Tests:
+------------------------------
+Parte01-01 Modeling MDPs:
+Python error: 'BlackjackMDP' object has no attribute 'cardVales'
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test01: 0.0/10.0
+------------------------------
+Part02-01 ValueIteration::
+Python error: unhashable type: 'list'
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test02-01: 0.0/10.0
+------------------------------
+Part02-02 Peeking MDP:
+Python error: Not implemented yet
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test02-02: 0.0/10.0
+------------------------------
+Part03-01 QLearningAlgorithm:
+Python error: Not implemented yet
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test03-01: 0.0/10.0
+------------------------------
+Part03-02 BlackjackFeatureExtractor:
+Python error: unhashable type: 'list'
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test03-02: 0.0/10.0
+******************************
+Code quality:
+------------------------------
+Code grade: 5.48/10.0	(Code with reasonably quality)
+------------------------------
+Standards deviation:
+statement:	0
+info:	0
+convention:	35
+refactor:	3
+warning:	4
+error:	2
+fatal:	0
+------------------------------
+Deviation description:
+superfluous-parens:	2
+line-too-long:	1
+invalid-name:	28
+redefined-builtin:	1
+too-many-locals:	1
+singleton-comparison:	4
+unsupported-assignment-operation:	1
+no-member:	1
+unused-variable:	1
+too-many-branches:	1
+arguments-differ:	1
+unreachable:	1
+too-few-public-methods:	1
+******************************
+Tests:
+------------------------------
+Parte01-01 Modeling MDPs:
+Python error: 'BlackjackMDP' object has no attribute 'cardVales'
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test01: 0.0/10.0
+------------------------------
+Part02-01 ValueIteration::
+Python error: unhashable type: 'list'
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test02-01: 0.0/10.0
+------------------------------
+Part02-02 Peeking MDP:
+Python error: Not implemented yet
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test02-02: 0.0/10.0
+------------------------------
+Part03-01 QLearningAlgorithm:
+Python error: Not implemented yet
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test03-01: 0.0/10.0
+------------------------------
+Part03-02 BlackjackFeatureExtractor:
+Python error: unhashable type: 'list'
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test03-02: 0.0/10.0
+******************************
+Code quality:
+------------------------------
+Code grade: 5.48/10.0	(Code with reasonably quality)
+------------------------------
+Standards deviation:
+statement:	0
+info:	0
+convention:	35
+refactor:	3
+warning:	4
+error:	2
+fatal:	0
+------------------------------
+Deviation description:
+superfluous-parens:	2
+line-too-long:	1
+invalid-name:	28
+redefined-builtin:	1
+too-many-locals:	1
+singleton-comparison:	4
+unsupported-assignment-operation:	1
+no-member:	1
+unused-variable:	1
+too-many-branches:	1
+arguments-differ:	1
+unreachable:	1
+too-few-public-methods:	1
+******************************
+Tests:
+------------------------------
+Parte01-01 Modeling MDPs:
+Python error: 'BlackjackMDP' object has no attribute 'cardVales'
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test01: 0.0/10.0
+------------------------------
+Part02-01 ValueIteration::
+Python error: unhashable type: 'list'
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test02-01: 0.0/10.0
+------------------------------
+Part02-02 Peeking MDP:
+Python error: Not implemented yet
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test02-02: 0.0/10.0
+------------------------------
+Part03-01 QLearningAlgorithm:
+Python error: Not implemented yet
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test03-01: 0.0/10.0
+------------------------------
+Part03-02 BlackjackFeatureExtractor:
+Python error: unhashable type: 'list'
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test03-02: 0.0/10.0
+******************************
+Code quality:
+------------------------------
+Code grade: 5.39/10.0	(Code with reasonably quality)
+------------------------------
+Standards deviation:
+statement:	0
+info:	0
+convention:	35
+refactor:	3
+warning:	5
+error:	2
+fatal:	0
+------------------------------
+Deviation description:
+superfluous-parens:	2
+line-too-long:	1
+invalid-name:	28
+redefined-builtin:	1
+too-many-locals:	1
+singleton-comparison:	4
+unsupported-assignment-operation:	1
+no-member:	1
+unused-variable:	2
+too-many-branches:	1
+arguments-differ:	1
+unreachable:	1
+too-few-public-methods:	1
+******************************
+Tests:
+------------------------------
+Parte01-01 Modeling MDPs:
+Python error: 'BlackjackMDP' object has no attribute 'cardVales'
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test01: 0.0/10.0
+------------------------------
+Part02-01 ValueIteration::
+Python error: unhashable type: 'list'
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test02-01: 0.0/10.0
+------------------------------
+Part02-02 Peeking MDP:
+Python error: Not implemented yet
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test02-02: 0.0/10.0
+------------------------------
+Part03-01 QLearningAlgorithm:
+Python error: Not implemented yet
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test03-01: 0.0/10.0
+------------------------------
+Part03-02 BlackjackFeatureExtractor:
+Python error: unhashable type: 'list'
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test03-02: 0.0/10.0
+******************************
+Code quality:
+------------------------------
+Code grade: 5.39/10.0	(Code with reasonably quality)
+------------------------------
+Standards deviation:
+statement:	0
+info:	0
+convention:	35
+refactor:	3
+warning:	5
+error:	2
+fatal:	0
+------------------------------
+Deviation description:
+superfluous-parens:	2
+line-too-long:	1
+invalid-name:	28
+redefined-builtin:	1
+too-many-locals:	1
+singleton-comparison:	4
+unsupported-assignment-operation:	1
+no-member:	1
+unused-variable:	2
+too-many-branches:	1
+arguments-differ:	1
+unreachable:	1
+too-few-public-methods:	1
+******************************
+Tests:
+------------------------------
+Parte01-01 Modeling MDPs:
+Python error: 'BlackjackMDP' object has no attribute 'cardVales'
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test01: 0.0/10.0
+------------------------------
+Part02-01 ValueIteration::
+Python error: unhashable type: 'list'
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test02-01: 0.0/10.0
+------------------------------
+Part02-02 Peeking MDP:
+Python error: Not implemented yet
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test02-02: 0.0/10.0
+------------------------------
+Part03-01 QLearningAlgorithm:
+Python error: Not implemented yet
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test03-01: 0.0/10.0
+------------------------------
+Part03-02 BlackjackFeatureExtractor:
+Python error: unhashable type: 'list'
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test03-02: 0.0/10.0
+******************************
+Code quality:
+------------------------------
+Code grade: 5.39/10.0	(Code with reasonably quality)
+------------------------------
+Standards deviation:
+statement:	0
+info:	0
+convention:	35
+refactor:	3
+warning:	5
+error:	2
+fatal:	0
+------------------------------
+Deviation description:
+superfluous-parens:	2
+line-too-long:	1
+invalid-name:	28
+redefined-builtin:	1
+too-many-locals:	1
+singleton-comparison:	4
+unsupported-assignment-operation:	1
+no-member:	1
+unused-variable:	2
+too-many-branches:	1
+arguments-differ:	1
+unreachable:	1
+too-few-public-methods:	1
+******************************
+Tests:
+------------------------------
+Parte01-01 Modeling MDPs:
+Python error: 'BlackjackMDP' object has no attribute 'cardVales'
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test01: 0.0/10.0
+------------------------------
+Part02-01 ValueIteration::
+Python error: unhashable type: 'list'
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test02-01: 0.0/10.0
+------------------------------
+Part02-02 Peeking MDP:
+Python error: Not implemented yet
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test02-02: 0.0/10.0
+------------------------------
+Part03-01 QLearningAlgorithm:
+Python error: Not implemented yet
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test03-01: 0.0/10.0
+------------------------------
+Part03-02 BlackjackFeatureExtractor:
+Python error: unhashable type: 'list'
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test03-02: 0.0/10.0
+******************************
+Code quality:
+------------------------------
+Code grade: 5.48/10.0	(Code with reasonably quality)
+------------------------------
+Standards deviation:
+statement:	0
+info:	0
+convention:	35
+refactor:	3
+warning:	4
+error:	2
+fatal:	0
+------------------------------
+Deviation description:
+superfluous-parens:	2
+line-too-long:	1
+invalid-name:	28
+redefined-builtin:	1
+too-many-locals:	1
+singleton-comparison:	4
+unsupported-assignment-operation:	1
+no-member:	1
+unused-variable:	1
+too-many-branches:	1
+arguments-differ:	1
+unreachable:	1
+too-few-public-methods:	1
+******************************
+Tests:
+------------------------------
+Parte01-01 Modeling MDPs:
+Python error: 'BlackjackMDP' object has no attribute 'cardVales'
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test01: 0.0/10.0
+------------------------------
+Part02-01 ValueIteration::
+Python error: unhashable type: 'list'
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test02-01: 0.0/10.0
+------------------------------
+Part02-02 Peeking MDP:
+Python error: Not implemented yet
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test02-02: 0.0/10.0
+------------------------------
+Part03-01 QLearningAlgorithm:
+Python error: Not implemented yet
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test03-01: 0.0/10.0
+------------------------------
+Part03-02 BlackjackFeatureExtractor:
+Python error: unhashable type: 'list'
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test03-02: 0.0/10.0
+******************************
+Code quality:
+------------------------------
+Code grade: 5.91/10.0	(Code with reasonably quality)
+------------------------------
+Standards deviation:
+statement:	0
+info:	0
+convention:	35
+refactor:	3
+warning:	4
+error:	1
+fatal:	0
+------------------------------
+Deviation description:
+superfluous-parens:	2
+line-too-long:	1
+invalid-name:	28
+redefined-builtin:	1
+too-many-locals:	1
+singleton-comparison:	4
+unsupported-assignment-operation:	1
+unused-variable:	1
+too-many-branches:	1
+arguments-differ:	1
+unreachable:	1
+too-few-public-methods:	1
+******************************
+Tests:
+------------------------------
+Parte01-01 Modeling MDPs:
+Modeling MDPs:	1/2 correct
+Test concluded without errors
+Grade in the Test01: 5.0/10.0
+------------------------------
+Part02-01 ValueIteration::
+Python error: unhashable type: 'list'
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test02-01: 0.0/10.0
+------------------------------
+Part02-02 Peeking MDP:
+Python error: Not implemented yet
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test02-02: 0.0/10.0
+------------------------------
+Part03-01 QLearningAlgorithm:
+Python error: Not implemented yet
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test03-01: 0.0/10.0
+------------------------------
+Part03-02 BlackjackFeatureExtractor:
+Python error: unhashable type: 'list'
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test03-02: 0.0/10.0
+******************************
+Code quality:
+------------------------------
+Code grade: 6.02/10.0	(Code with reasonably quality)
+------------------------------
+Standards deviation:
+statement:	0
+info:	0
+convention:	40
+refactor:	4
+warning:	4
+error:	1
+fatal:	0
+------------------------------
+Deviation description:
+superfluous-parens:	4
+line-too-long:	1
+invalid-name:	30
+redefined-builtin:	1
+too-many-locals:	1
+singleton-comparison:	5
+unsupported-assignment-operation:	1
+unused-variable:	1
+too-many-branches:	1
+too-many-statements:	1
+arguments-differ:	1
+unreachable:	1
+too-few-public-methods:	1
+******************************
+Tests:
+------------------------------
+Parte01-01 Modeling MDPs:
+Python error: local variable 'i' referenced before assignment
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test01: 0.0/10.0
+------------------------------
+Part02-01 ValueIteration::
+Python error: unhashable type: 'list'
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test02-01: 0.0/10.0
+------------------------------
+Part02-02 Peeking MDP:
+Python error: Not implemented yet
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test02-02: 0.0/10.0
+------------------------------
+Part03-01 QLearningAlgorithm:
+Python error: Not implemented yet
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test03-01: 0.0/10.0
+------------------------------
+Part03-02 BlackjackFeatureExtractor:
+Python error: unhashable type: 'list'
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test03-02: 0.0/10.0
+******************************
+Code quality:
+------------------------------
+Code grade: 6.02/10.0	(Code with reasonably quality)
+------------------------------
+Standards deviation:
+statement:	0
+info:	0
+convention:	40
+refactor:	4
+warning:	4
+error:	1
+fatal:	0
+------------------------------
+Deviation description:
+superfluous-parens:	4
+line-too-long:	1
+invalid-name:	30
+redefined-builtin:	1
+too-many-locals:	1
+singleton-comparison:	5
+unsupported-assignment-operation:	1
+unused-variable:	1
+too-many-branches:	1
+too-many-statements:	1
+arguments-differ:	1
+unreachable:	1
+too-few-public-methods:	1
+******************************
+Tests:
+------------------------------
+Parte01-01 Modeling MDPs:
+Python error: local variable 'i' referenced before assignment
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test01: 0.0/10.0
+------------------------------
+Part02-01 ValueIteration::
+Python error: unhashable type: 'list'
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test02-01: 0.0/10.0
+------------------------------
+Part02-02 Peeking MDP:
+Python error: Not implemented yet
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test02-02: 0.0/10.0
+------------------------------
+Part03-01 QLearningAlgorithm:
+Python error: Not implemented yet
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test03-01: 0.0/10.0
+------------------------------
+Part03-02 BlackjackFeatureExtractor:
+Python error: unhashable type: 'list'
+Test did not concluded
+Receiving grade 0.0 in the test
+Grade in the Test03-02: 0.0/10.0

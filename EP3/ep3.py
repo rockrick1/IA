@@ -114,6 +114,36 @@ class BlackjackMDP(util.MDP):
                     list.append(a)
 
         elif action == 'Take':
+            if state[1] != None: # if peeked before, we know the card
+                next_card = self.cardValues[state[1]]
+                cur_points = state[0]
+                bust = False
+                if cur_points + next_card <= self.threshold:
+                    cur_points += next_card
+
+                    # update the deck
+                    newdeck = []
+                    for j in range(len(state[2])):
+                        newdeck.append(state[2][j])
+                    newdeck[i] -= 1
+                    if (sum(newdeck) == 0):
+                        newdeck = None
+
+                else:
+                    bust = True
+                    cur_points = 0
+                    newdeck = None
+
+                newstate = (cur_points, None, newdeck)
+                # because we know the card, prob is 1
+                if (newdeck == None): # return points if terminal state
+                    a = (newstate, 1, cur_points)
+                else:
+                    a = (newstate, 1, 0)
+                list.append(a)
+                return list
+
+            # if didnt peek before
             rem_cards = sum(state[2])
             for i in range(len(state[2])):
                 bust = False
@@ -131,6 +161,8 @@ class BlackjackMDP(util.MDP):
                         for j in range(len(state[2])):
                             newdeck.append(state[2][j])
                         newdeck[i] -= 1
+                        if (sum(newdeck) == 0):
+                            newdeck = None
 
                     # oh boy, busted
                     else:
@@ -139,12 +171,14 @@ class BlackjackMDP(util.MDP):
                         newdeck = None
 
                     newstate = (cur_points, None, newdeck)
-                    a = (newstate, prob, 0)
+                    if (newdeck == None): # return points if terminal state
+                        a = (newstate, prob, cur_points)
+                    else:
+                        a = (newstate, prob, 0)
+                    print('a: ', a)
                     list.append(a)
 
         return list
-
-
         # END_YOUR_CODE
 
     def discount(self):
