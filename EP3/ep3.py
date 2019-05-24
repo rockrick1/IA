@@ -91,12 +91,16 @@ class BlackjackMDP(util.MDP):
         """a = (newstate, prob, reward)"""
 
         print(state)
-        newstate = (state[0], state[1], state[2])
+        newstate = [state[0], state[1], state[2]]
         list = []
 
+        if state[2] == None:
+            return list
+
         if action == 'Quit':
+            newstate[1] = None
             newstate[2] = None
-            a = (newstate, 1, state[0])
+            a = (tuple(newstate), 1, state[0])
             list.append(a)
 
         elif action == 'Peek':
@@ -208,8 +212,29 @@ class ValueIteration(util.MDPAlgorithm):
             return pi
         V = defaultdict(float)  # state -> value of state
         # Implement the main loop of Asynchronous Value Iteration Here:
+
         # BEGIN_YOUR_CODE
-        raise Exception("Not implemented yet")
+        K = 4
+        # until it changes less than epsilon
+        for state in mdp.states:
+            last = 0
+            new = 1
+            while(True):
+                last = V[state]
+                best = -10000.0
+                for action in mdp.actions(state):
+                    val = 0
+                    R = 0
+                    for newstate, prob, reward in mdp.succAndProbReward(state, action):
+                        R = reward
+                        val += prob * V[newstate]
+                    val += R
+                    if val > best:
+                        best = val
+                if abs(V[state] - best < epsilon):
+                    break
+                V[state] = best
+
         # END_YOUR_CODE
 
         # Extract the optimal policy now
@@ -318,18 +343,18 @@ def blackjackFeatureExtractor(state, action):
     raise Exception("Not implemented yet")
     # END_YOUR_CODE
 
-def main():
-    smallMDP = BlackjackMDP(cardValues=[1, 5], multiplicity=2,
-                                   threshold=15, peekCost=1)
-    preEmptyState = (11, None, (1,0))
-    tests = [
-        ([((12, None, None), 1, 12)], smallMDP, preEmptyState, 'Take'),
-        ([((5, None, (2, 1)), 1, 0)], smallMDP, (0, 1, (2, 2)), 'Take')
-    ]
-    for gold, mdp, state, action in tests:
-        if  gold == mdp.succAndProbReward(state, action):
-            print('yeeeeeah')
-        else:
-            print('oh no')
-            print(gold)
-main()
+# def main():
+#     smallMDP = BlackjackMDP(cardValues=[1, 5], multiplicity=2,
+#                                    threshold=15, peekCost=1)
+#     preEmptyState = (11, None, (1,0))
+#     tests = [
+#         ([((12, None, None), 1, 12)], smallMDP, preEmptyState, 'Take'),
+#         ([((5, None, (2, 1)), 1, 0)], smallMDP, (0, 1, (2, 2)), 'Take')
+#     ]
+#     for gold, mdp, state, action in tests:
+#         if  gold == mdp.succAndProbReward(state, action):
+#             print('yeeeeeah')
+#         else:
+#             print('oh no')
+#             print(gold)
+# main()
