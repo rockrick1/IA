@@ -87,12 +87,12 @@ class BlackjackMDP(util.MDP):
            don't include that state in the list returned by succAndProbReward.
         """
         # BEGIN_YOUR_CODE
+        """state = (points, peeked card, deck)"""
+        """a = (newstate, prob, reward)"""
+
+        print(state)
         newstate = (state[0], state[1], state[2])
         list = []
-
-        # if terminal state
-        if state[2] == None:
-            return list
 
         if action == 'Quit':
             newstate[2] = None
@@ -113,44 +113,28 @@ class BlackjackMDP(util.MDP):
                     a = (newstate, prob, -self.peekCost)
                     list.append(a)
 
-        elif action == 'Take':
-            if state[1] != None: # if peeked before, we know the card
-                next_card = self.cardValues[state[1]]
-                cur_points = state[0]
-                bust = False
-                if cur_points + next_card <= self.threshold:
-                    cur_points += next_card
-
-                    # update the deck
-                    newdeck = []
-                    for j in range(len(state[2])):
-                        newdeck.append(state[2][j])
-                    newdeck[i] -= 1
-                    if (sum(newdeck) == 0):
-                        newdeck = None
-
-                else:
-                    bust = True
-                    cur_points = 0
-                    newdeck = None
-
-                newstate = (cur_points, None, newdeck)
-                # because we know the card, prob is 1
-                if (newdeck == None): # return points if terminal state
-                    a = (newstate, 1, cur_points)
-                else:
-                    a = (newstate, 1, 0)
-                list.append(a)
-                return list
-
-            # if didnt peek before
+        if action == 'Take':
             rem_cards = sum(state[2])
-            for i in range(len(state[2])):
-                bust = False
-                if state[2][i] != 0:
-                    prob = state[2][i] / rem_cards
+
+            possible_cards = len(state[2])
+            peek = False
+            peeked_card = None
+
+            if state[1] != None: # peeked before
+                possible_cards = 1
+                peek = True
+
+            for i in range(possible_cards):
+                # print(possible_cards, state)
+                if state[2][i] != 0 or peek:
+                    if peek:
+                        prob = 1
+                        card_value = self.cardValues[state[1]]
+                    else:
+                        prob = state[2][i] / rem_cards
+                        card_value = self.cardValues[i]
                     cur_points = state[0]
-                    card_value = self.cardValues[i]
+
 
                     # didnt bust the score
                     if cur_points + card_value <= self.threshold:
@@ -160,13 +144,17 @@ class BlackjackMDP(util.MDP):
                         newdeck = []
                         for j in range(len(state[2])):
                             newdeck.append(state[2][j])
-                        newdeck[i] -= 1
-                        if (sum(newdeck) == 0):
+                        if peek:
+                            newdeck[state[1]] -= 1
+                        else:
+                            newdeck[i] -= 1
+                        if (sum(newdeck) == 0): # deck is empty
                             newdeck = None
+                        else:
+                            newdeck = tuple(newdeck)
 
                     # oh boy, busted
                     else:
-                        bust = True
                         cur_points = 0
                         newdeck = None
 
@@ -175,8 +163,8 @@ class BlackjackMDP(util.MDP):
                         a = (newstate, prob, cur_points)
                     else:
                         a = (newstate, prob, 0)
-                    print('a: ', a)
                     list.append(a)
+            print('list: ', list)
 
         return list
         # END_YOUR_CODE
@@ -329,3 +317,19 @@ def blackjackFeatureExtractor(state, action):
     # BEGIN_YOUR_CODE
     raise Exception("Not implemented yet")
     # END_YOUR_CODE
+
+def main():
+    smallMDP = BlackjackMDP(cardValues=[1, 5], multiplicity=2,
+                                   threshold=15, peekCost=1)
+    preEmptyState = (11, None, (1,0))
+    tests = [
+        ([((12, None, None), 1, 12)], smallMDP, preEmptyState, 'Take'),
+        ([((5, None, (2, 1)), 1, 0)], smallMDP, (0, 1, (2, 2)), 'Take')
+    ]
+    for gold, mdp, state, action in tests:
+        if  gold == mdp.succAndProbReward(state, action):
+            print('yeeeeeah')
+        else:
+            print('oh no')
+            print(gold)
+main()
