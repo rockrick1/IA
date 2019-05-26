@@ -90,17 +90,16 @@ class BlackjackMDP(util.MDP):
         """state = (points, peeked card, deck)"""
         """a = (newstate, prob, reward)"""
 
-        print(state)
         newstate = [state[0], state[1], state[2]]
         list = []
 
-        if state[2] == None:
+        if state[2] == None: # terminal state
             return list
 
         if action == 'Quit':
             newstate[1] = None
             newstate[2] = None
-            a = (tuple(newstate), 1, state[0])
+            a = (tuple(newstate), 1, state[0]) # reward i cur_points
             list.append(a)
 
         elif action == 'Peek':
@@ -263,7 +262,12 @@ def peekingMDP():
     optimal action for at least 10% of the states.
     """
     # BEGIN_YOUR_CODE
-    raise Exception("Not implemented yet")
+    threshold = 20
+    peekCost = 1
+    cardValues = [5, 100]
+    multiplicity = 10
+
+    return BlackjackMDP(cardValues, multiplicity, threshold, peekCost)
     # END_YOUR_CODE
 
 
