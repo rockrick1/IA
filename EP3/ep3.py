@@ -211,30 +211,38 @@ class ValueIteration(util.MDPAlgorithm):
                 pi[state] = max((computeQ(mdp, V, state, action), action) for action in mdp.actions(state))[1]
             return pi
         V = defaultdict(float)  # state -> value of state
+        print('V   ', V)
         # Implement the main loop of Asynchronous Value Iteration Here:
-
-        # BEGIN_YOUR_CODE
-        K = 4
-        # until it changes less than epsilon
+        done = False
+        Vl = {}
+        Vl = defaultdict(float)
         for state in mdp.states:
-            last = 0
-            new = 1
-            while(True):
-                last = V[state]
-                best = -10000.0
+            V[state] = 0.0
+        while not done:
+            for state in mdp.states:
+                Vl[state] = -math.inf # V'
+            for state in mdp.states:
                 for action in mdp.actions(state):
-                    val = 0
+                    Q = 0
                     R = 0
-                    for newstate, prob, reward in mdp.succAndProbReward(state, action):
-                        R = reward
-                        val += prob * V[newstate]
-                    val += R
-                    if val > best:
-                        best = val
-                if abs(V[state] - best < epsilon):
-                    break
-                V[state] = best
+                    # Successor states and probs and rewards
+                    for ss, p, r in mdp.succAndProbReward(state, action):
+                        Q += p*V[ss]
+                        # if there is more than 1 possible reward, we can
+                        # pick any of them because they are all 0
 
+                        # the only cases where the reward is not zero are when
+                        # the list of succAndProbReward has only 1 element
+                        # e.g when action is quit or peek
+                        R = r
+                    Q = Q + R
+                    if Q > Vl[state]:
+                        Vl[state] = Q
+            done = True
+            for state in mdp.states: # V <- V'
+                if abs(V[state] - Vl[state]) >= epsilon:
+                    done = False
+                    V[state] = Vl[state]
         # END_YOUR_CODE
 
         # Extract the optimal policy now
