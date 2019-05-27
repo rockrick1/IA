@@ -167,7 +167,6 @@ class BlackjackMDP(util.MDP):
                     else:
                         a = (newstate, prob, 0)
                     list.append(a)
-            print('list: ', list)
 
         return list
         # END_YOUR_CODE
@@ -210,7 +209,6 @@ class ValueIteration(util.MDPAlgorithm):
                 pi[state] = max((computeQ(mdp, V, state, action), action) for action in mdp.actions(state))[1]
             return pi
         V = defaultdict(float)  # state -> value of state
-        print('V   ', V)
         # Implement the main loop of Asynchronous Value Iteration Here:
         done = False
         Vl = {}
@@ -327,7 +325,13 @@ class QLearningAlgorithm(util.RLAlgorithm):
          HINT: Remember to check if s is a terminal state and s' None.
         """
         # BEGIN_YOUR_CODE
-        raise Exception("Not implemented yet")
+        print("s, a", state, action)
+        cur_Q = self.getQ(state, action)
+        if newState != None: # idk
+            for f, v in self.featureExtractor(state, action):
+                self.weights[f] += self.getStepSize()
+                print("f yay")
+                print(f, v)
         # END_YOUR_CODE
 
 def identityFeatureExtractor(state, action):
