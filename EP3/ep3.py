@@ -32,7 +32,6 @@ import random
 from collections import defaultdict
 import util
 
-
 # **********************************************************
 # **            PART 01 Modeling BlackJack                **
 # **********************************************************
@@ -99,7 +98,7 @@ class BlackjackMDP(util.MDP):
         if action == 'Quit':
             newstate[1] = None
             newstate[2] = None
-            a = (tuple(newstate), 1, state[0]) # reward i cur_points
+            a = (tuple(newstate), 1, state[0]) # reward is cur_points
             list.append(a)
 
         elif action == 'Peek':
@@ -116,7 +115,7 @@ class BlackjackMDP(util.MDP):
                     a = (newstate, prob, -self.peekCost)
                     list.append(a)
 
-        if action == 'Take':
+        elif action == 'Take':
             rem_cards = sum(state[2])
 
             possible_cards = len(state[2])
@@ -211,7 +210,7 @@ class ValueIteration(util.MDPAlgorithm):
         V = defaultdict(float)  # state -> value of state
         # Implement the main loop of Asynchronous Value Iteration Here:
         done = False
-        Vl = {}
+        Vl = {} # V'
         Vl = defaultdict(float)
         for state in mdp.states:
             V[state] = 0.0
@@ -237,6 +236,7 @@ class ValueIteration(util.MDPAlgorithm):
                         Vl[state] = Q
             done = True
             for state in mdp.states: # V <- V'
+                # takes epsilon into consideration
                 if abs(V[state] - Vl[state]) >= epsilon:
                     done = False
                     V[state] = Vl[state]
@@ -325,13 +325,10 @@ class QLearningAlgorithm(util.RLAlgorithm):
          HINT: Remember to check if s is a terminal state and s' None.
         """
         # BEGIN_YOUR_CODE
-        print("s, a", state, action)
         cur_Q = self.getQ(state, action)
-        if newState != None: # idk
+        if newState != None:
             for f, v in self.featureExtractor(state, action):
                 self.weights[f] += self.getStepSize()
-                print("f yay")
-                print(f, v)
         # END_YOUR_CODE
 
 def identityFeatureExtractor(state, action):
